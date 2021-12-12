@@ -1,14 +1,14 @@
-package com.kanrisoft.Karni;
+package com.kanrisoft.Kanri;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KarniApplication {
+public class KanriApplication {
 
 	public static void main(String[] args) {
 		System.out.println("First Step ");
-		SpringApplication.run(KarniApplication.class, args);
+		SpringApplication.run(KanriApplication.class, args);
 	}
 
 }

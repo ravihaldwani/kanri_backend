@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.kanrisoft</groupId>
-	<artifactId>Karni</artifactId>
+	<artifactId>Kanri</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Karni</name>
+	<name>Kanri</name>
 	<description>kanri project</description>
 	<properties>
 		<java.version>1.8</java.version>
