@@ -1,10 +1,10 @@
-package com.kanrisoft.Karni;
+package com.kanrisoft.Kanri;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class KarniApplicationTests {
+class KanriApplicationTests {
 
 	@Test
 	void contextLoads() {
