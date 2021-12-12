@@ -12,7 +12,7 @@
 	<artifactId>Kanri</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Kanri</name>
-	<description>kanri project</description>
+	<description>A project management app</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
