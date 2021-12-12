@@ -1,4 +1,4 @@
-package com.kanrisoft.Kanri;
+package com.kanrisoft.kanri;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
