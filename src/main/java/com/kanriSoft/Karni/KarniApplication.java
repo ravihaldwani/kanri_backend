@@ -1,4 +1,4 @@
-package com.kanriSoft.Karni;
+package com.kanrisoft.Karni;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

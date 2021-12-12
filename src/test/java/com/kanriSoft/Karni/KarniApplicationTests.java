@@ -1,4 +1,4 @@
-package com.kanriSoft.Karni;
+package com.kanrisoft.Karni;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
