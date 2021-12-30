@@ -1,10 +1,9 @@
 package com.kanrisoft.kanri.user.model;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
+import java.time.Instant;
 import java.util.Set;
 
-public interface User extends UserDetails {
+public interface User {
     long getId();
 
     void setId(long id);
@@ -21,9 +20,9 @@ public interface User extends UserDetails {
 
     void setPhone(String phone);
 
-    java.time.Instant getCreatedDate();
+    Instant getCreatedDate();
 
-    void setCreatedDate(java.time.Instant createdDate);
+    void setCreatedDate(Instant createdDate);
 
     Status getStatus();
 

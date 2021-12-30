@@ -6,89 +6,86 @@ import com.kanrisoft.kanri.user.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.Set;
 
-@Entity
+//@Entity
 @NoArgsConstructor
 @Getter
 @Setter
 class UserEntity implements User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "first_name")
+    //    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
+    //    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "phone")
+    // @Column(name = "phone")
     private String phone;
 
-    @Column(name = "created_date")
+    // @Column(name = "created_date")
     private Instant createdDate;
 
-    @Column(name = "status")
+    // @Column(name = "status")
     private Status status;
 
-    @Column(name = "verified")
+    // @Column(name = "verified")
     private boolean verified;
 
-    @Column(name = "designation")
+    // @Column(name = "designation")
     private String designation;
 
-    @Column(name = "password")
+    // @Column(name = "password")
     private String password;
 
-    @Lob
-    @Column(name = "user_image")
+    //    @Lob
+    // @Column(name = "user_image")
     private byte[] userImage;
 
-    @Column(name = "user_image_content_type")
+    // @Column(name = "user_image_content_type")
     private String userImageContentType;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_ROLES",
-            joinColumns = {
-                    @JoinColumn(name = "USER_ID")
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "ROLE_ID")})
+    //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinTable(name = "USER_ROLES",
+//            joinColumns = {
+//                    @JoinColumn(name = "USER_ID")
+//            },
+//            inverseJoinColumns = {
+//                    @JoinColumn(name = "ROLE_ID")})
     private Set<Role> roles;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
+//    }
 
-    @Override
+    //    @Override
     public String getUsername() {
         return null;
     }
 
-    @Override
+    //    @Override
     public boolean isAccountNonExpired() {
         return false;
     }
 
-    @Override
+    //    @Override
     public boolean isAccountNonLocked() {
         return false;
     }
 
-    @Override
+    //    @Override
     public boolean isCredentialsNonExpired() {
         return false;
     }
 
-    @Override
+    //    @Override
     public boolean isEnabled() {
         return false;
     }
