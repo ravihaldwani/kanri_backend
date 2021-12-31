@@ -5,5 +5,5 @@ import com.kanrisoft.kanri.user.model.User;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService {
-    User register(RegisterRequest user);
+    User register(RegisterRequest request);
 }

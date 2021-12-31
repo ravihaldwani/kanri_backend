@@ -40,6 +40,10 @@ public interface User {
 
     void setRoles(Set<Role> roles);
 
+    String getEmail();
+
+    void setEmail(String email);
+
     void setPassword(String password);
 
     void setUserImage(byte[] userImage);

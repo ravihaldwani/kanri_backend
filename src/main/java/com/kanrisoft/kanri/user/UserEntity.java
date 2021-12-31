@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-class UserEntity implements User {
+public class UserEntity implements User {
 
     //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,6 +50,8 @@ class UserEntity implements User {
 
     // @Column(name = "user_image_content_type")
     private String userImageContentType;
+
+    private String email;
 
     //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(name = "USER_ROLES",
@@ -89,7 +91,6 @@ class UserEntity implements User {
     public boolean isEnabled() {
         return false;
     }
-
 
 //	reportsTo*
 //	spaceId*
