@@ -4,11 +4,18 @@ import com.kanrisoft.kanri.user.model.User;
 import com.kanrisoft.kanri.user.model.UserDto;
 
 public class UserUtils {
-    static UserDto mapUserToDto(User user) {
-        return null;
+    public static UserDto mapUserToDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setEmail(user.getEmail());
+        userDto.setPassword(user.getPassword());
+        return userDto;
     }
 
-    static User mapDtoToUser(UserDto user) {
-        return null;
+    public static User mapDtoToUser(UserDto userDto) {
+        User user = new UserEntity();
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        return user;
+
     }
 }
