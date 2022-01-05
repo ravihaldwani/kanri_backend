@@ -4,11 +4,11 @@ import com.kanrisoft.kanri.security.jwt.TokenProvider;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
 import com.kanrisoft.kanri.user.model.UserDto;
 import com.kanrisoft.kanri.user.service.UserService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,14 +42,17 @@ class UserController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> generateToken(@RequestBody UserDto request) throws AuthenticationException {
-
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
         );
         var authentication = authenticationManager.authenticate(auth);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
-        return ResponseEntity.ok(token + " success");
+
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.AUTHORIZATION,
+                        token
+                ).body("Logged in successfully");
     }
 }

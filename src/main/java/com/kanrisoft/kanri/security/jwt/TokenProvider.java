@@ -6,15 +6,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -68,9 +65,9 @@ public class TokenProvider implements Serializable {
     }
 
     public String generateToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
+        var authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
@@ -82,15 +79,8 @@ public class TokenProvider implements Serializable {
     }
 
 
-    public UsernamePasswordAuthenticationToken getAuthenticationToken(String authToken, Authentication existingAuth, UserDetails userDetails) {
-        final JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(getKey()).build();
-        final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(authToken);
-        final Claims claims = claimsJws.getBody();
-
-        final Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream((String[]) claims.get(AUTHORITIES_KEY))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+    public UsernamePasswordAuthenticationToken getAuthenticationToken(UserDetails userDetails) {
+        final var authorities = userDetails.getAuthorities();
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }

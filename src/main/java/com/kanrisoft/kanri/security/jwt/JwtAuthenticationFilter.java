@@ -1,10 +1,8 @@
 package com.kanrisoft.kanri.security.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,6 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = request.getHeader(jwtTokenUtil.HEADER_STRING);
         String username = null;
         String authToken = null;
+        log.debug("Jwt Filter called");
 
         if (header != null && header.startsWith(jwtTokenUtil.TOKEN_PREFIX)) {
             authToken = header.replace(jwtTokenUtil.TOKEN_PREFIX, "");
@@ -45,8 +44,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 log.error("An error occurred while fetching Username from Token");
             } catch (ExpiredJwtException e) {
                 log.error("Token has expired");
-            } catch (SignatureException e) {
-                log.error("Invalid Credentials");
             }
         }  //logger (Could not find bearer string ,header will be ignored)
 
@@ -54,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthenticationToken(authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
+                var authentication = jwtTokenUtil.getAuthenticationToken(userDetails);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 //logger
                 SecurityContextHolder.getContext().setAuthentication(authentication);
