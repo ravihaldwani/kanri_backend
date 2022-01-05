@@ -2,11 +2,14 @@ package com.kanrisoft.kanri.user.service;
 
 import com.kanrisoft.kanri.user.InvalidRequestException;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
+import com.kanrisoft.kanri.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doThrow;
@@ -17,7 +20,11 @@ class UserServiceImplTest {
     @Mock
     private UserValidator validator;
 
-    private UserRepository repository = new UserRepoImpl();
+    @Mock
+    private PasswordEncoder encoder;
+
+    @Autowired
+    private UserRepository repository;
 
     //    @Autowired
 //    @InjectMocks
@@ -26,7 +33,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void beforeEach() {
-        underTest = new UserServiceImpl(validator, repository);
+        underTest = new UserServiceImpl(validator, encoder, repository);
     }
 
     @Test
@@ -51,7 +58,6 @@ class UserServiceImplTest {
     @Test
     void shouldReturnUserIfValidData() {
         RegisterRequest request = new RegisterRequest("test@test.com", "password");
-//        given(repository.findByEmail(request.getEmail())).willReturn(Optional.empty());
 
         try {
             var user = underTest.register(request);

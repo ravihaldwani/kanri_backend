@@ -1,0 +1,10 @@
+jwt:
+  signing.key: "I0AjQFJAdiEmQW5rIVQkfC18XnJtQA=="
+  authorities.key: roles
+  header.string: Authorization
+  token:
+    prefix: Bearer
+    validity: 4800
+
+logging.level:
+  root: DEBUG

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -28,11 +29,17 @@ public class TokenProvider implements Serializable {
     @Value("${jwt.authorities.key}")
     public String AUTHORITIES_KEY;
 
+    @Value("${jwt.header.string}")
+    public String HEADER_STRING;
+
+    @Value("${jwt.token.prefix}")
+    public String TOKEN_PREFIX;
+
     public String getUsernameFromToken(String authToken) {
-        return getClaimFromToken(authToken, Claims ::getSubject);
+        return getClaimFromToken(authToken, Claims::getSubject);
     }
 
-    public Date getExpirationDateFromToken(String token){
+    public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
@@ -41,9 +48,9 @@ public class TokenProvider implements Serializable {
         return expiration.before(new Date());
     }
 
-    private <T> T getClaimFromToken(String token, Function<Claims,T> claimsResolver) {
-            final Claims claims = getAllClaimsFromToken(token);
-            return  claimsResolver.apply(claims);
+    private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
     }
 
     private Claims getAllClaimsFromToken(String token) {
@@ -62,12 +69,13 @@ public class TokenProvider implements Serializable {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+        Keys
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY*1000))
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000))
                 .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
                 .compact();
     }
@@ -75,19 +83,16 @@ public class TokenProvider implements Serializable {
 
     public UsernamePasswordAuthenticationToken getAuthenticationToken(String authToken, Authentication existingAuth, UserDetails userDetails) {
         final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
-
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(authToken);
-
         final Claims claims = claimsJws.getBody();
 
         final Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                Arrays.stream((String[]) claims.get(AUTHORITIES_KEY))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
-
 
 
 }

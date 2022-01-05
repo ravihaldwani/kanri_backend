@@ -1,16 +1,18 @@
 package com.kanrisoft.kanri.user.model;
 
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-//@Entity
-@NoArgsConstructor
+@Getter
+@Setter
 public class Role {
+    public final static Role USER = new Role("USER");
+    public final static Role ADMIN = new Role("ADMIN");
 
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    //    @Column
     private String name;
+
+    Role(String name) {
+        this.name = name;
+    }
 
 }

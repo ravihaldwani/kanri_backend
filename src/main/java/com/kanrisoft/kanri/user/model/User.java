@@ -1,9 +1,11 @@
 package com.kanrisoft.kanri.user.model;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.Instant;
 import java.util.Set;
 
-public interface User {
+public interface User extends UserDetails {
     long getId();
 
     void setId(long id);
@@ -49,8 +51,4 @@ public interface User {
     void setUserImage(byte[] userImage);
 
     void setUserImageContentType(String userImageContentType);
-
-    String getEmail();
-
-    void setEmail(String email);
 }
