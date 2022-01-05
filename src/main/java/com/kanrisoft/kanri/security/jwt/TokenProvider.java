@@ -1,6 +1,7 @@
 package com.kanrisoft.kanri.security.jwt;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,18 +24,18 @@ public class TokenProvider implements Serializable {
 
     @Value("${jwt.token.validity}")
     public long TOKEN_VALIDITY;
-
     @Value("${jwt.signing.key}")
     public String SIGNING_KEY;
-
     @Value("${jwt.authorities.key}")
     public String AUTHORITIES_KEY;
-
     @Value("${jwt.header.string}")
     public String HEADER_STRING;
-
     @Value("${jwt.token.prefix}")
     public String TOKEN_PREFIX;
+
+    private Key getKey() {
+        return Keys.hmacShaKeyFor(SIGNING_KEY.getBytes(StandardCharsets.UTF_8));
+    }
 
     public String getUsernameFromToken(String authToken) {
         return getClaimFromToken(authToken, Claims::getSubject);
@@ -54,8 +56,8 @@ public class TokenProvider implements Serializable {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(SIGNING_KEY)
+        return Jwts.parserBuilder().setSigningKey(getKey())
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -69,20 +71,19 @@ public class TokenProvider implements Serializable {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-        Keys
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
+                .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
 
     public UsernamePasswordAuthenticationToken getAuthenticationToken(String authToken, Authentication existingAuth, UserDetails userDetails) {
-        final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
+        final JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(getKey()).build();
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(authToken);
         final Claims claims = claimsJws.getBody();
 
