@@ -29,7 +29,10 @@ public class UserEntity implements User {
     // @Column(name = "phone")
     private String phone;
 
-    // @Column(name = "created_date")
+    // @Column(name = "email")
+    private String email;
+
+//    @Column(name = "created_date")
     private Instant createdDate;
 
     // @Column(name = "status")
@@ -63,36 +66,33 @@ public class UserEntity implements User {
     private Set<Role> roles;
 
 //    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//    }
-
-    //    @Override
-    public String getUsername() {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
     //    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    //    @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     //    @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     //    @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     //    @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
-
-//	reportsTo*
-//	spaceId*
 
 }

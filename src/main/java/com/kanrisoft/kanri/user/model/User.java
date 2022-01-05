@@ -49,4 +49,8 @@ public interface User {
     void setUserImage(byte[] userImage);
 
     void setUserImageContentType(String userImageContentType);
+
+    String getEmail();
+
+    void setEmail(String email);
 }
