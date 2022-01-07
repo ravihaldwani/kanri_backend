@@ -2,6 +2,7 @@ package com.kanrisoft.kanri.user.model;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.Set;
 
 public interface User extends UserDetails {
@@ -21,9 +22,9 @@ public interface User extends UserDetails {
 
     void setPhone(String phone);
 
-    java.time.Instant getCreatedDate();
+    Instant getCreatedDate();
 
-    void setCreatedDate(java.time.Instant createdDate);
+    void setCreatedDate(Instant createdDate);
 
     Status getStatus();
 
@@ -41,13 +42,13 @@ public interface User extends UserDetails {
 
     void setRoles(Set<Role> roles);
 
+    String getEmail();
+
+    void setEmail(String email);
+
     void setPassword(String password);
 
     void setUserImage(byte[] userImage);
 
     void setUserImageContentType(String userImageContentType);
-
-    String getEmail();
-
-    void setEmail(String email);
 }

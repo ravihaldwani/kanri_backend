@@ -26,11 +26,9 @@ class UserControllerTest {
 
     @Test
     void shouldRegisterUser() throws Exception {
-        byte[] body = TestUtil.convertObjectToJsonBytes(new RegisterRequest());
-        mvc.perform(
-                        post(baseUrl + "/register", body)
-                                .contentType(MediaType.APPLICATION_JSON).content(body)
-                )
+        byte[] body = TestUtil.convertObjectToJsonBytes(new RegisterRequest("", ""));
+
+        mvc.perform(post(baseUrl + "/register").contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isOk());
     }
 }

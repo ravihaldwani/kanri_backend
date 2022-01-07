@@ -1,6 +1,5 @@
 package com.kanrisoft.kanri.user.model;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
