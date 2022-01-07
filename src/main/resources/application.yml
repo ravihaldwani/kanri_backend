@@ -1,7 +1,7 @@
 jwt:
-  signing.key: "I0AjQFJAdiEmQW5rIVQkfC18XnJtQA=="
-  authorities.key: roles
-  header.string: Authorization
+  signing-key: "I0AjQFJAdiEmQW5rIVQkfC18XnJtQA=="
+  authorities-key: roles
+  header-key: Authorization
   token:
     prefix: Bearer
     validity: 4800

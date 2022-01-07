@@ -1,8 +1,9 @@
 package com.kanrisoft.kanri.security.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,19 +20,24 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider implements Serializable {
 
-    @Value("${jwt.token.validity}")
-    public long TOKEN_VALIDITY;
-    @Value("${jwt.signing.key}")
-    public String SIGNING_KEY;
-    @Value("${jwt.authorities.key}")
-    public String AUTHORITIES_KEY;
-    @Value("${jwt.header.string}")
-    public String HEADER_STRING;
-    @Value("${jwt.token.prefix}")
-    public String TOKEN_PREFIX;
+    private final JwtProperties jwtProperties;
+
+    public TokenProvider(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+    }
+//    @Value("${jwt.token.validity}")
+//    public long TOKEN_VALIDITY;
+//    @Value("${jwt.signing.key}")
+//    public String SIGNING_KEY;
+//    @Value("${jwt.authorities.key}")
+//    public String AUTHORITIES_KEY;
+//    @Value("${jwt.header.string}")
+//    public String HEADER_STRING;
+//    @Value("${jwt.token.prefix}")
+//    public String TOKEN_PREFIX;
 
     private Key getKey() {
-        return Keys.hmacShaKeyFor(SIGNING_KEY.getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(this.jwtProperties.getSigningKey().getBytes(StandardCharsets.UTF_8));
     }
 
     public String getUsernameFromToken(String authToken) {
@@ -71,9 +77,9 @@ public class TokenProvider implements Serializable {
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
+                .claim(jwtProperties.getAuthoritiesKey(), authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getToken().getValidity() * 1000))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
