@@ -25,16 +25,6 @@ public class TokenProvider implements Serializable {
     public TokenProvider(JwtProperties jwtProperties) {
         this.jwtProperties = jwtProperties;
     }
-//    @Value("${jwt.token.validity}")
-//    public long TOKEN_VALIDITY;
-//    @Value("${jwt.signing.key}")
-//    public String SIGNING_KEY;
-//    @Value("${jwt.authorities.key}")
-//    public String AUTHORITIES_KEY;
-//    @Value("${jwt.header.string}")
-//    public String HEADER_STRING;
-//    @Value("${jwt.token.prefix}")
-//    public String TOKEN_PREFIX;
 
     private Key getKey() {
         return Keys.hmacShaKeyFor(this.jwtProperties.getSigningKey().getBytes(StandardCharsets.UTF_8));
