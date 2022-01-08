@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -20,8 +23,9 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString
+@Table("user")
 public class UserEntity implements User {
-
+    @Id
     private long id;
 
     private String firstName;
@@ -32,20 +36,27 @@ public class UserEntity implements User {
 
     private String email;
 
-    private Instant createdDate;
-
-    private Status status;
-
-    private boolean verified;
-
-    private String designation;
-
     private String password;
 
+    private Instant createdDate;
+
+    @Transient
+    private Status status;
+
+    @Transient
+    private boolean verified;
+
+    @Transient
+    private String designation;
+
+
+    @Transient
     private byte[] userImage;
 
+    @Transient
     private String userImageContentType;
 
+    @Transient
     private Set<Role> roles = new HashSet<>();
 
     public boolean addRole(Role role) {

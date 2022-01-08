@@ -8,3 +8,18 @@ jwt:
 
 logging.level:
   root: DEBUG
+
+spring:
+  datasource:
+    embedded-database-connection: h2
+    password: test
+    username: test
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true

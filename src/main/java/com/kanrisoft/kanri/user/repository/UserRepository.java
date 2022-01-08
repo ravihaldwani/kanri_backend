@@ -1,13 +1,15 @@
 package com.kanrisoft.kanri.user.repository;
 
+import com.kanrisoft.kanri.user.UserEntity;
 import com.kanrisoft.kanri.user.model.User;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface UserRepository{
-    User save(User user);
+@Repository
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
     Optional<User> findByEmail(String email);
 
-    void deleteAll();
 }

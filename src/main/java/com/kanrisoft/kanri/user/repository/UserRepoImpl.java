@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
-@Component
-class UserRepoImpl implements UserRepository {
+//@Component
+abstract class UserRepoImpl implements UserRepository {
     private final Map<String, User> store = new HashMap<>();
 
     @Override
@@ -18,12 +18,12 @@ class UserRepoImpl implements UserRepository {
         return Optional.ofNullable(store.get(email));
     }
 
-    @Override
-    public User save(User user) {
-        store.put(user.getEmail(), user);
-        log.debug(user.toString());
-        return user;
-    }
+//    @Override
+//    public User save(User user) {
+//        store.put(user.getEmail(), user);
+//        log.debug(user.toString());
+//        return user;
+//    }
 
     @Override
     public void deleteAll() {
