@@ -41,8 +41,16 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void activateUser(String key) {
+        var user = repository.findByActivationKey(key);
+        user.orElseThrow(() -> new IllegalStateException("No User found for activation key"))
+                .activateUser(key);
+        repository.save(user.get());
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = Optional.empty();
+        Optional<? extends User> user = Optional.empty();
         try {
             user = repository.findByEmail(username);
             log.debug(user.toString());

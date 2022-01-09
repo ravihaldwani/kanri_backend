@@ -61,4 +61,11 @@ class UserController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(UserUtils.mapUserToDto(user));
     }
+
+    @GetMapping("/activate")
+    public ResponseEntity<Object> activateUser(@RequestParam(value = "key") String key) {
+        userService.activateUser(key);
+        // send a redirect to our home page
+        return ResponseEntity.ok("User activated");
+    }
 }
