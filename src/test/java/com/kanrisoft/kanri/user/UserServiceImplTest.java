@@ -38,7 +38,7 @@ class UserServiceImplTest {
 
     @Test
     void shouldThrowErrorIfInvalidData() {
-        RegisterRequest user = new RegisterRequest("", "");
+        RegisterRequest user = new RegisterRequest();
         doThrow(InvalidRequestException.class).when(validator).validateRegistrationRequest(user);
 
         assertThrows(InvalidRequestException.class, () -> underTest.register(user));
@@ -46,7 +46,9 @@ class UserServiceImplTest {
 
     @Test
     void shouldNotThrowErrorIfValidData() {
-        RegisterRequest user = new RegisterRequest("test@test.com", "password");
+        RegisterRequest user = new RegisterRequest();
+        user.setEmail("test@test.com");
+        user.setPassword("password");
 
         try {
             underTest.register(user);
@@ -57,7 +59,9 @@ class UserServiceImplTest {
 
     @Test
     void shouldReturnUserIfValidData() {
-        RegisterRequest request = new RegisterRequest("test@test.com", "password");
+        RegisterRequest request = new RegisterRequest();
+        request.setEmail("test@test.com");
+        request.setPassword("password");
 
         try {
             var user = underTest.register(request);
