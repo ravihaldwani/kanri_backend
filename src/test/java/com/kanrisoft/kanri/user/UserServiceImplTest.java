@@ -1,18 +1,24 @@
 package com.kanrisoft.kanri.user;
 
+import com.kanrisoft.kanri.user.exception.EmailAlreadyUsedException;
 import com.kanrisoft.kanri.user.exception.InvalidRequestException;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
 import com.kanrisoft.kanri.user.service.UserValidator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -23,18 +29,13 @@ class UserServiceImplTest {
     @Mock
     private PasswordEncoder encoder;
 
-    @Autowired
+    @Mock
     private UserRepository repository;
 
-    //    @Autowired
-//    @InjectMocks
+    @Autowired
+    @InjectMocks
     private UserServiceImpl underTest;
 
-
-    @BeforeEach
-    void beforeEach() {
-        underTest = new UserServiceImpl(validator, encoder, repository);
-    }
 
     @Test
     void shouldThrowErrorIfInvalidData() {
@@ -62,6 +63,9 @@ class UserServiceImplTest {
         RegisterRequest request = new RegisterRequest();
         request.setEmail("test@test.com");
         request.setPassword("password");
+        var argumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
+        var mockUser = mock(UserEntity.class);
+        given(repository.save(argumentCaptor.capture())).willReturn(mockUser);
 
         try {
             var user = underTest.register(request);
@@ -69,6 +73,17 @@ class UserServiceImplTest {
         } catch (InvalidRequestException e) {
             fail("Should not throw Exception");
         }
+    }
+
+    @Test
+    void shouldThrowEmailExistsException() {
+        RegisterRequest request = new RegisterRequest();
+        request.setEmail("test@test.com");
+        request.setPassword("password");
+        var mockUser = mock(UserEntity.class);
+        given(repository.findByEmail(request.getEmail())).willReturn(Optional.of(mockUser));
+
+        assertThrows(EmailAlreadyUsedException.class, () -> underTest.register(request));
     }
 
 }
