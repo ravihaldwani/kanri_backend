@@ -26,13 +26,11 @@ public interface User extends UserDetails {
 
     void setStatus(Status status);
 
-//    boolean isVerified();
+    boolean isActivated();
 
-//    void setVerified(boolean verified);
+    String getActivationKey();
 
-//    String getDesignation();
-
-//    void setDesignation(String designation);
+    void activateUser(String activationKey);
 
     Set<Role> getRoles();
 

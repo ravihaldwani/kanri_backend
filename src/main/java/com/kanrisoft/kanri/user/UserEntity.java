@@ -27,6 +27,7 @@ class UserEntity implements User {
     private final Long id;
     @MappedCollection()
     private final Set<Role> roles;
+    private String activationKey;
     private String firstName;
     private String lastName;
     private String phone;
@@ -34,14 +35,25 @@ class UserEntity implements User {
     private String password;
     private Instant createdDate;
     private Status status;
+    private boolean activated;
 
-    //    private boolean verified;
-    private UserEntity(String firstName, String lastName, String email, String password, String phone) {
-        this(null, firstName, lastName, email, password, phone, Instant.now(), new HashSet<>(), Status.ACTIVE);
+    private UserEntity(String firstName, String lastName, String email, String password, String phone, boolean activated, String activationKey) {
+        this(null, firstName, lastName, email, password, phone, Instant.now(), new HashSet<>(), Status.ACTIVE, activated, activationKey);
     }
 
     @PersistenceConstructor
-    private UserEntity(Long id, String firstName, String lastName, String email, String password, String phone, Instant createdDate, Set<Role> roles, Status status) {
+    private UserEntity(
+            Long id,
+            String firstName,
+            String lastName,
+            String email,
+            String password,
+            String phone,
+            Instant createdDate,
+            Set<Role> roles,
+            Status status,
+            boolean activated,
+            String activationKey) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -51,11 +63,26 @@ class UserEntity implements User {
         this.createdDate = createdDate;
         this.roles = roles;
         this.status = status;
+        this.activated = activated;
+        this.activationKey = activationKey;
     }
 
-    //    private String designation;
     public static UserEntity of(String firstName, String lastName, String email, String password, String phone) {
-        return new UserEntity(firstName, lastName, email, password, phone);
+        var activationKey = UserUtils.generateActivationKey(email);
+        return new UserEntity(firstName, lastName, email, password, phone, false, activationKey);
+    }
+
+    @Override
+    public String getActivationKey() {
+        return this.activationKey;
+    }
+
+    @Override
+    public void activateUser(String activationKey) {
+        if (!activationKey.equals(this.activationKey)) {
+            throw new IllegalStateException("Invalid activation key");
+        }
+        this.activated = true;
     }
 
     public boolean addRole(Role role) {

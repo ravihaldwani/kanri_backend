@@ -1,7 +1,10 @@
 package com.kanrisoft.kanri.user;
 
+import com.google.common.hash.Hashing;
 import com.kanrisoft.kanri.user.model.User;
 import com.kanrisoft.kanri.user.model.UserDto;
+
+import java.nio.charset.StandardCharsets;
 
 public class UserUtils {
     public static UserDto mapUserToDto(User user) {
@@ -12,6 +15,7 @@ public class UserUtils {
         userDto.setPhone(user.getPhone());
         userDto.setStatus(user.getStatus());
         userDto.setCreatedDate(user.getCreatedDate());
+        userDto.setActivated(user.isActivated());
         return userDto;
     }
 
@@ -21,4 +25,8 @@ public class UserUtils {
 //        user.setPassword(userDto.getPassword());
 //        return user;
 //    }
+
+    public static String generateActivationKey(String base) {
+        return Hashing.sha256().hashString(base, StandardCharsets.UTF_8).toString();
+    }
 }
