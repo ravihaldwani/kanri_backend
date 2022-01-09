@@ -1,15 +1,11 @@
 package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.user.model.Role;
-import com.kanrisoft.kanri.user.model.Status;
 import com.kanrisoft.kanri.user.model.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -23,8 +19,8 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString
-@Table("user")
-public class UserEntity implements User {
+@AllArgsConstructor(access = AccessLevel.PRIVATE, onConstructor = @__(@PersistenceConstructor))
+class UserEntity implements User {
     @Id
     private long id;
 
@@ -40,27 +36,21 @@ public class UserEntity implements User {
 
     private Instant createdDate;
 
-    @Transient
-    private Status status;
+//    private Status status = Status.ACTIVE;
 
-    @Transient
-    private boolean verified;
+//    private boolean verified;
 
-    @Transient
-    private String designation;
+//    private String designation;
 
-
-    @Transient
-    private byte[] userImage;
-
-    @Transient
-    private String userImageContentType;
-
-    @Transient
+    @MappedCollection()
     private Set<Role> roles = new HashSet<>();
 
     public boolean addRole(Role role) {
         return roles.add(role);
+    }
+
+    public boolean removeRole(Role role) {
+        return roles.remove(role);
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -26,17 +26,17 @@ public interface User extends UserDetails {
 
     void setCreatedDate(Instant createdDate);
 
-    Status getStatus();
+//    Status getStatus();
 
-    void setStatus(Status status);
+//    void setStatus(Status status);
 
-    boolean isVerified();
+//    boolean isVerified();
 
-    void setVerified(boolean verified);
+//    void setVerified(boolean verified);
 
-    String getDesignation();
+//    String getDesignation();
 
-    void setDesignation(String designation);
+//    void setDesignation(String designation);
 
     Set<Role> getRoles();
 
@@ -48,7 +48,4 @@ public interface User extends UserDetails {
 
     void setPassword(String password);
 
-    void setUserImage(byte[] userImage);
-
-    void setUserImageContentType(String userImageContentType);
 }
