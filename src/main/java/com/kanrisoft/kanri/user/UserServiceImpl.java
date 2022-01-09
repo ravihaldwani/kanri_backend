@@ -1,16 +1,18 @@
-package com.kanrisoft.kanri.user.service;
+package com.kanrisoft.kanri.user;
 
-import com.kanrisoft.kanri.user.EmailAlreadyUsedException;
-import com.kanrisoft.kanri.user.UserEntity;
+import com.kanrisoft.kanri.user.exception.EmailAlreadyUsedException;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
 import com.kanrisoft.kanri.user.model.Role;
 import com.kanrisoft.kanri.user.model.User;
-import com.kanrisoft.kanri.user.repository.UserRepository;
+import com.kanrisoft.kanri.user.service.UserService;
+import com.kanrisoft.kanri.user.service.UserValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -35,13 +37,19 @@ class UserServiceImpl implements UserService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.addRole(Role.USER);
+        user.addRole(Role.ADMIN);
         return repository.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = repository.findByEmail(username);
-        log.debug(user.toString());
+        Optional<User> user = Optional.empty();
+        try {
+            user = repository.findByEmail(username);
+            log.debug(user.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return user.orElseThrow(() -> new UsernameNotFoundException("username not found"));
     }
 }

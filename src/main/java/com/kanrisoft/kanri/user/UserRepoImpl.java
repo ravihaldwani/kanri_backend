@@ -1,8 +1,7 @@
-package com.kanrisoft.kanri.user.repository;
+package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.user.model.User;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
