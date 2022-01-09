@@ -22,11 +22,9 @@ public interface User extends UserDetails {
 
     Instant getCreatedDate();
 
-    void setCreatedDate(Instant createdDate);
+    Status getStatus();
 
-//    Status getStatus();
-
-//    void setStatus(Status status);
+    void setStatus(Status status);
 
 //    boolean isVerified();
 

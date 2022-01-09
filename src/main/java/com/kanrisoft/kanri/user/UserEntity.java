@@ -1,6 +1,7 @@
 package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.user.model.Role;
+import com.kanrisoft.kanri.user.model.Status;
 import com.kanrisoft.kanri.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,16 +33,15 @@ class UserEntity implements User {
     private String email;
     private String password;
     private Instant createdDate;
-
-//    private Status status = Status.ACTIVE;
+    private Status status;
 
     //    private boolean verified;
     private UserEntity(String firstName, String lastName, String email, String password, String phone) {
-        this(null, firstName, lastName, email, password, phone, Instant.now(), new HashSet<>());
+        this(null, firstName, lastName, email, password, phone, Instant.now(), new HashSet<>(), Status.ACTIVE);
     }
 
     @PersistenceConstructor
-    private UserEntity(Long id, String firstName, String lastName, String email, String password, String phone, Instant createdDate, Set<Role> roles) {
+    private UserEntity(Long id, String firstName, String lastName, String email, String password, String phone, Instant createdDate, Set<Role> roles, Status status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,6 +50,7 @@ class UserEntity implements User {
         this.phone = phone;
         this.createdDate = createdDate;
         this.roles = roles;
+        this.status = status;
     }
 
     //    private String designation;
@@ -93,7 +94,7 @@ class UserEntity implements User {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return status == Status.ACTIVE;
     }
 
 }
