@@ -32,12 +32,9 @@ class UserServiceImpl implements UserService {
         validator.validateRegistrationRequest(request);
 
         if (repository.findByEmail(request.getEmail()).isPresent()) throw new EmailAlreadyUsedException();
-
-        UserEntity user = new UserEntity();
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        var encodedPassword = passwordEncoder.encode(request.getPassword());
+        UserEntity user = UserEntity.of(null, null, request.getEmail(), encodedPassword, null);
         user.addRole(Role.USER);
-        user.addRole(Role.ADMIN);
         return repository.save(user);
     }
 

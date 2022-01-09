@@ -11,11 +11,10 @@ public class UserUtils {
         return userDto;
     }
 
-    public static User mapDtoToUser(UserDto userDto) {
-        User user = new UserEntity();
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        return user;
-
-    }
+//    public static User mapDtoToUser(UserDto userDto) {
+//        User user = UserEntity.of(null, null, userDto.getEmail(), null);
+//        user.setEmail(userDto.getEmail());
+//        user.setPassword(userDto.getPassword());
+//        return user;
+//    }
 }

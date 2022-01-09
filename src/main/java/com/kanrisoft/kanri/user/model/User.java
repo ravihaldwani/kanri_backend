@@ -6,9 +6,7 @@ import java.time.Instant;
 import java.util.Set;
 
 public interface User extends UserDetails {
-    long getId();
-
-    void setId(long id);
+    Long getId();
 
     String getFirstName();
 
@@ -39,8 +37,6 @@ public interface User extends UserDetails {
 //    void setDesignation(String designation);
 
     Set<Role> getRoles();
-
-    void setRoles(Set<Role> roles);
 
     String getEmail();
 
