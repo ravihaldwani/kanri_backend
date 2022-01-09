@@ -12,10 +12,10 @@ import java.util.Optional;
 abstract class UserRepoImpl implements UserRepository {
     private final Map<String, User> store = new HashMap<>();
 
-    @Override
-    public Optional<User> findByEmail(String email) {
-        return Optional.ofNullable(store.get(email));
-    }
+//    @Override
+//    public Optional<? extends User> findByEmail(String email) {
+//        return Optional.ofNullable(store.get(email));
+//    }
 
 //    @Override
 //    public User save(User user) {

@@ -14,4 +14,5 @@ public class UserDto {
     private String email;
     private Instant createdDate;
     private Status status;
+    private boolean activated;
 }
