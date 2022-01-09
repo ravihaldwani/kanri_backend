@@ -7,7 +7,11 @@ public class UserUtils {
     public static UserDto mapUserToDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setPhone(user.getPhone());
+        userDto.setStatus(user.getStatus());
+        userDto.setCreatedDate(user.getCreatedDate());
         return userDto;
     }
 
