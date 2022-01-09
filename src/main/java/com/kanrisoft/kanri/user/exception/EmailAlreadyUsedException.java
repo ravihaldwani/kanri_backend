@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.user;
+package com.kanrisoft.kanri.user.exception;
 
 public class EmailAlreadyUsedException extends RuntimeException {
     public EmailAlreadyUsedException() {

@@ -1,6 +1,7 @@
 package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.security.jwt.TokenProvider;
+import com.kanrisoft.kanri.user.exception.InvalidRequestException;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
 import com.kanrisoft.kanri.user.model.UserDto;
 import com.kanrisoft.kanri.user.service.UserService;
