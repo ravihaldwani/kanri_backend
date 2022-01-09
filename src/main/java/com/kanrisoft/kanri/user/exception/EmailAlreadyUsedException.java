@@ -1,7 +1,7 @@
 package com.kanrisoft.kanri.user.exception;
 
 public class EmailAlreadyUsedException extends RuntimeException {
-    public EmailAlreadyUsedException() {
-        super("Email already used");
+    public EmailAlreadyUsedException(String email) {
+        super(String.format("Email %s already used", email));
     }
 }

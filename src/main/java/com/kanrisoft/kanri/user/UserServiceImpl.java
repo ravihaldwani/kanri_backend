@@ -31,7 +31,7 @@ class UserServiceImpl implements UserService {
     public User register(RegisterRequest request) {
         validator.validateRegistrationRequest(request);
 
-        if (repository.findByEmail(request.getEmail()).isPresent()) throw new EmailAlreadyUsedException();
+        if (repository.findByEmail(request.getEmail()).isPresent()) throw new EmailAlreadyUsedException(request.getEmail());
         var encodedPassword = passwordEncoder.encode(request.getPassword());
         UserEntity user = UserEntity.of(null, null, request.getEmail(), encodedPassword, null);
         user.addRole(Role.USER);
