@@ -1,6 +1,6 @@
 package com.kanrisoft.kanri.user.service;
 
-import com.kanrisoft.kanri.user.InvalidRequestException;
+import com.kanrisoft.kanri.user.exception.InvalidRequestException;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

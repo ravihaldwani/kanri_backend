@@ -6,9 +6,7 @@ import java.time.Instant;
 import java.util.Set;
 
 public interface User extends UserDetails {
-    long getId();
-
-    void setId(long id);
+    Long getId();
 
     String getFirstName();
 
@@ -24,23 +22,17 @@ public interface User extends UserDetails {
 
     Instant getCreatedDate();
 
-    void setCreatedDate(Instant createdDate);
-
     Status getStatus();
 
     void setStatus(Status status);
 
-    boolean isVerified();
+    boolean isActivated();
 
-    void setVerified(boolean verified);
+    String getActivationKey();
 
-    String getDesignation();
-
-    void setDesignation(String designation);
+    void activateUser(String activationKey);
 
     Set<Role> getRoles();
-
-    void setRoles(Set<Role> roles);
 
     String getEmail();
 
@@ -48,7 +40,4 @@ public interface User extends UserDetails {
 
     void setPassword(String password);
 
-    void setUserImage(byte[] userImage);
-
-    void setUserImageContentType(String userImageContentType);
 }

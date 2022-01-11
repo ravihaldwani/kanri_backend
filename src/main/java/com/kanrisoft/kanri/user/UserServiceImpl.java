@@ -1,16 +1,18 @@
-package com.kanrisoft.kanri.user.service;
+package com.kanrisoft.kanri.user;
 
-import com.kanrisoft.kanri.user.EmailAlreadyUsedException;
-import com.kanrisoft.kanri.user.UserEntity;
+import com.kanrisoft.kanri.user.exception.EmailAlreadyUsedException;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
 import com.kanrisoft.kanri.user.model.Role;
 import com.kanrisoft.kanri.user.model.User;
-import com.kanrisoft.kanri.user.repository.UserRepository;
+import com.kanrisoft.kanri.user.service.UserService;
+import com.kanrisoft.kanri.user.service.UserValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -29,19 +31,32 @@ class UserServiceImpl implements UserService {
     public User register(RegisterRequest request) {
         validator.validateRegistrationRequest(request);
 
-        if (repository.findByEmail(request.getEmail()).isPresent()) throw new EmailAlreadyUsedException();
+        if (repository.findByEmail(request.getEmail()).isPresent())
+            throw new EmailAlreadyUsedException(request.getEmail());
 
-        UserEntity user = new UserEntity();
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        var encodedPassword = passwordEncoder.encode(request.getPassword());
+        UserEntity user = UserEntity.of(request.getFirstName(), request.getLastName(), request.getEmail(), encodedPassword, request.getPhone());
         user.addRole(Role.USER);
         return repository.save(user);
     }
 
     @Override
+    public void activateUser(String key) {
+        var user = repository.findByActivationKey(key);
+        user.orElseThrow(() -> new IllegalStateException("No User found for activation key"))
+                .activateUser(key);
+        repository.save(user.get());
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = repository.findByEmail(username);
-        log.debug(user.toString());
+        Optional<? extends User> user = Optional.empty();
+        try {
+            user = repository.findByEmail(username);
+            log.debug(user.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return user.orElseThrow(() -> new UsernameNotFoundException("username not found"));
     }
 }

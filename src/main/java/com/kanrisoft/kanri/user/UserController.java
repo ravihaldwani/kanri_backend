@@ -1,7 +1,9 @@
 package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.security.jwt.TokenProvider;
+import com.kanrisoft.kanri.user.exception.InvalidRequestException;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
+import com.kanrisoft.kanri.user.model.User;
 import com.kanrisoft.kanri.user.model.UserDto;
 import com.kanrisoft.kanri.user.service.UserService;
 import org.springframework.http.HttpHeaders;
@@ -9,10 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -41,7 +41,7 @@ class UserController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> generateToken(@RequestBody UserDto request) throws AuthenticationException {
+    public ResponseEntity<Object> generateToken(@RequestBody LoginRequest request) throws AuthenticationException {
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
@@ -54,5 +54,18 @@ class UserController {
                         HttpHeaders.AUTHORIZATION,
                         token
                 ).body("Logged in successfully");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> getMe() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(UserUtils.mapUserToDto(user));
+    }
+
+    @GetMapping("/activate")
+    public ResponseEntity<Object> activateUser(@RequestParam(value = "key") String key) {
+        userService.activateUser(key);
+        // send a redirect to our home page
+        return ResponseEntity.ok("User activated");
     }
 }

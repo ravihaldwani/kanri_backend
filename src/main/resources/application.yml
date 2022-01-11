@@ -1,10 +1,20 @@
 jwt:
-  signing.key: "I0AjQFJAdiEmQW5rIVQkfC18XnJtQA=="
-  authorities.key: roles
-  header.string: Authorization
+  signing-key: "I0AjQFJAdiEmQW5rIVQkfC18XnJtQA=="
+  authorities-key: roles
+  header-key: Authorization
   token:
     prefix: Bearer
     validity: 4800
 
 logging.level:
   root: DEBUG
+
+spring:
+  datasource:
+    username: kanri
+    password: password
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/kanri
+  sql:
+    init:
+      mode: always
