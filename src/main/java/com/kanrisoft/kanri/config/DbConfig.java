@@ -1,21 +1,17 @@
 package com.kanrisoft.kanri.config;
 
-import org.springframework.context.annotation.Bean;
+import com.kanrisoft.kanri.user.model.UserId;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.convert.ReadingConverter;
+import org.springframework.data.convert.WritingConverter;
+import org.springframework.data.jdbc.core.convert.JdbcCustomConversions;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.transaction.TransactionManager;
 
-import javax.sql.DataSource;
+import java.util.List;
 
-//@Configuration
+@Configuration
 public class DbConfig extends AbstractJdbcConfiguration {
 
 //    @Bean
@@ -44,4 +40,31 @@ public class DbConfig extends AbstractJdbcConfiguration {
 //        initializer.setDatabasePopulator(populator);
 //        return initializer;
 //    }
+
+    @Override
+    public JdbcCustomConversions jdbcCustomConversions() {
+        var converters = List.of(UserIdToLongConverter.INSTANCE, LongToUserIdConverter.INSTANCE);
+        return new JdbcCustomConversions(converters);
+
+    }
+
+    @WritingConverter
+    enum UserIdToLongConverter implements Converter<UserId, Long> {
+        INSTANCE;
+
+        @Override
+        public Long convert(UserId source) {
+            return source.getId();
+        }
+    }
+
+    @ReadingConverter
+    enum LongToUserIdConverter implements Converter<Long, UserId> {
+        INSTANCE;
+
+        @Override
+        public UserId convert(@NotNull Long source) {
+            return UserId.of(source);
+        }
+    }
 }

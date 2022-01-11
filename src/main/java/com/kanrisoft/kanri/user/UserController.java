@@ -2,6 +2,7 @@ package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.security.jwt.TokenProvider;
 import com.kanrisoft.kanri.user.exception.InvalidRequestException;
+import com.kanrisoft.kanri.user.model.LoginRequest;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
 import com.kanrisoft.kanri.user.model.User;
 import com.kanrisoft.kanri.user.model.UserDto;
@@ -24,7 +25,8 @@ class UserController {
     UserController(
             AuthenticationManager authenticationManager,
             TokenProvider jwtTokenUtil,
-            UserService userService) {
+            UserService userService
+    ) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userService = userService;

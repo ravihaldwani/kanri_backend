@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.user.utils;
+package com.kanrisoft.kanri.user.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
