@@ -4,9 +4,12 @@ import com.kanrisoft.kanri.user.exception.EmailAlreadyUsedException;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
 import com.kanrisoft.kanri.user.model.Role;
 import com.kanrisoft.kanri.user.model.User;
+import com.kanrisoft.kanri.user.model.UserDto;
 import com.kanrisoft.kanri.user.service.UserService;
 import com.kanrisoft.kanri.user.service.UserValidator;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,6 +49,32 @@ class UserServiceImpl implements UserService {
         user.orElseThrow(() -> new IllegalStateException("No User found for activation key"))
                 .activateUser(key);
         repository.save(user.get());
+    }
+
+    @Override
+    public User updateUser(UserDto request) {
+        var userId = getCurrentUser().get().getId();
+        var userEntity = repository.findById(userId).get();
+        userEntity.setFirstName(request.getFirstName());
+        userEntity.setLastName(request.getLastName());
+        userEntity.setPhone(request.getPhone());
+        return repository.save(userEntity);
+    }
+
+    @Override
+    public Optional<User> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return Optional.empty();
+        }
+
+        var principal = authentication.getPrincipal();
+
+        if (principal instanceof User) {
+            return Optional.of((User) principal);
+        }
+        return Optional.empty();
     }
 
     @Override
