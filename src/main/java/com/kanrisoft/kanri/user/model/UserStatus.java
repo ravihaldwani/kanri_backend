@@ -1,5 +1,5 @@
 package com.kanrisoft.kanri.user.model;
 
-public enum Status {
+public enum UserStatus {
     ACTIVE, INACTIVE;
 }

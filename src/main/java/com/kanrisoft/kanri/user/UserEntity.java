@@ -1,9 +1,9 @@
 package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.user.model.Role;
-import com.kanrisoft.kanri.user.model.Status;
 import com.kanrisoft.kanri.user.model.User;
 import com.kanrisoft.kanri.user.model.UserId;
+import com.kanrisoft.kanri.user.model.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,7 +25,7 @@ class UserEntity implements User {
 
     @Id
     private final Long id;
-    @MappedCollection()
+    @MappedCollection
     private final Set<Role> roles;
     private String activationKey;
     private String firstName;
@@ -35,18 +35,13 @@ class UserEntity implements User {
     private String password;
     @CreatedDate
     private Instant createdDate;
-    private Status status;
+    private UserStatus status;
     private boolean activated;
     @CreatedBy
     private UserId createdBy;
     @LastModifiedBy
     private UserId lastModifiedBy;
 
-    private UserEntity(String firstName, String lastName, String email, String password, String phone, boolean activated, String activationKey, UserId createdBy, UserId lastModifiedBy) {
-        this(null, firstName, lastName, email, password, phone, Instant.now(), new HashSet<>(), Status.ACTIVE, activated, activationKey, createdBy, lastModifiedBy);
-    }
-
-    @PersistenceConstructor
     private UserEntity(
             Long id,
             String firstName,
@@ -56,7 +51,7 @@ class UserEntity implements User {
             String phone,
             Instant createdDate,
             Set<Role> roles,
-            Status status,
+            UserStatus status,
             boolean activated,
             String activationKey,
             UserId createdBy,
@@ -79,7 +74,21 @@ class UserEntity implements User {
 
     public static UserEntity of(String firstName, String lastName, String email, String password, String phone) {
         var activationKey = UserUtils.generateActivationKey(email);
-        return new UserEntity(firstName, lastName, email, password, phone, false, activationKey, null, null);
+        return new UserEntity(
+                null,
+                firstName,
+                lastName,
+                email,
+                password,
+                phone,
+                Instant.now(),
+                new HashSet<>(),
+                UserStatus.ACTIVE,
+                false,
+                activationKey,
+                null,
+                null
+        );
     }
 
     @Override
@@ -131,7 +140,7 @@ class UserEntity implements User {
 
     @Override
     public boolean isEnabled() {
-        return status == Status.ACTIVE;
+        return status == UserStatus.ACTIVE;
     }
 
 }

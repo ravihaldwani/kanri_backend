@@ -13,7 +13,7 @@ public class UserDto {
     private String phone;
     private String email;
     private Instant createdDate;
-    private Status status;
+    private UserStatus status;
     private boolean activated;
 }
 

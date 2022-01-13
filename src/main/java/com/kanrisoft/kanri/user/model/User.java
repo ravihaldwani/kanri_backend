@@ -20,9 +20,9 @@ public interface User extends UserDetails {
 
     void setPhone(String phone);
 
-    Status getStatus();
+    UserStatus getStatus();
 
-    void setStatus(Status status);
+    void setStatus(UserStatus status);
 
     boolean isActivated();
 
