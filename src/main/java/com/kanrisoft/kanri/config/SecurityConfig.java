@@ -1,7 +1,7 @@
 package com.kanrisoft.kanri.config;
 
 import com.kanrisoft.kanri.security.jwt.JwtAuthenticationFilter;
-import com.kanrisoft.kanri.security.jwt.UnauthorizedEntryPoint;
+import com.kanrisoft.kanri.security.UnauthorizedEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,14 +18,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final UnauthorizedEntryPoint unauthorizedEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(
+    public SecurityConfig(
             UserDetailsService userDetailsService,
             UnauthorizedEntryPoint unauthorizedEntryPoint,
             JwtAuthenticationFilter jwtAuthenticationFilter, PasswordEncoder passwordEncoder

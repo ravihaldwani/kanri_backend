@@ -20,8 +20,6 @@ public interface User extends UserDetails {
 
     void setPhone(String phone);
 
-    Instant getCreatedDate();
-
     Status getStatus();
 
     void setStatus(Status status);
@@ -39,5 +37,7 @@ public interface User extends UserDetails {
     void setEmail(String email);
 
     void setPassword(String password);
+
+    Instant getCreatedDate();
 
 }

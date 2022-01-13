@@ -3,11 +3,11 @@ package com.kanrisoft.kanri.user;
 import com.kanrisoft.kanri.user.model.Role;
 import com.kanrisoft.kanri.user.model.Status;
 import com.kanrisoft.kanri.user.model.User;
+import com.kanrisoft.kanri.user.model.UserId;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,12 +33,17 @@ class UserEntity implements User {
     private String phone;
     private String email;
     private String password;
+    @CreatedDate
     private Instant createdDate;
     private Status status;
     private boolean activated;
+    @CreatedBy
+    private UserId createdBy;
+    @LastModifiedBy
+    private UserId lastModifiedBy;
 
-    private UserEntity(String firstName, String lastName, String email, String password, String phone, boolean activated, String activationKey) {
-        this(null, firstName, lastName, email, password, phone, Instant.now(), new HashSet<>(), Status.ACTIVE, activated, activationKey);
+    private UserEntity(String firstName, String lastName, String email, String password, String phone, boolean activated, String activationKey, UserId createdBy, UserId lastModifiedBy) {
+        this(null, firstName, lastName, email, password, phone, Instant.now(), new HashSet<>(), Status.ACTIVE, activated, activationKey, createdBy, lastModifiedBy);
     }
 
     @PersistenceConstructor
@@ -53,7 +58,10 @@ class UserEntity implements User {
             Set<Role> roles,
             Status status,
             boolean activated,
-            String activationKey) {
+            String activationKey,
+            UserId createdBy,
+            UserId lastModifiedBy
+    ) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -65,11 +73,13 @@ class UserEntity implements User {
         this.status = status;
         this.activated = activated;
         this.activationKey = activationKey;
+        this.createdBy = createdBy;
+        this.lastModifiedBy = lastModifiedBy;
     }
 
     public static UserEntity of(String firstName, String lastName, String email, String password, String phone) {
         var activationKey = UserUtils.generateActivationKey(email);
-        return new UserEntity(firstName, lastName, email, password, phone, false, activationKey);
+        return new UserEntity(firstName, lastName, email, password, phone, false, activationKey, null, null);
     }
 
     @Override
@@ -95,7 +105,7 @@ class UserEntity implements User {
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                 .collect(Collectors.toSet());
     }
 

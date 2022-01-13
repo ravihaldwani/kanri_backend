@@ -16,3 +16,4 @@ public class UserDto {
     private Status status;
     private boolean activated;
 }
+

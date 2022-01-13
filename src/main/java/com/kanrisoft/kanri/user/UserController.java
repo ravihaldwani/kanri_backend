@@ -2,11 +2,13 @@ package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.security.jwt.TokenProvider;
 import com.kanrisoft.kanri.user.exception.InvalidRequestException;
+import com.kanrisoft.kanri.user.model.LoginRequest;
 import com.kanrisoft.kanri.user.model.RegisterRequest;
 import com.kanrisoft.kanri.user.model.User;
 import com.kanrisoft.kanri.user.model.UserDto;
 import com.kanrisoft.kanri.user.service.UserService;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +26,8 @@ class UserController {
     UserController(
             AuthenticationManager authenticationManager,
             TokenProvider jwtTokenUtil,
-            UserService userService) {
+            UserService userService
+    ) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userService = userService;
@@ -34,7 +37,7 @@ class UserController {
     ResponseEntity<Object> register(@RequestBody RegisterRequest request) {
         try {
             var user = userService.register(request);
-            return ResponseEntity.ok(UserUtils.mapUserToDto(user));
+            return ResponseEntity.status(HttpStatus.CREATED).body(UserUtils.mapUserToDto(user));
         } catch (InvalidRequestException exp) {
             return ResponseEntity.badRequest().body(exp);
         }
@@ -67,5 +70,11 @@ class UserController {
         userService.activateUser(key);
         // send a redirect to our home page
         return ResponseEntity.ok("User activated");
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto request) {
+        var user = userService.updateUser(request);
+        return ResponseEntity.ok(UserUtils.mapUserToDto(user));
     }
 }

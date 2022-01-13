@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.security.jwt;
+package com.kanrisoft.kanri.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
