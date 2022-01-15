@@ -4,6 +4,7 @@ import com.kanrisoft.kanri.user.model.Role;
 import com.kanrisoft.kanri.user.model.User;
 import com.kanrisoft.kanri.user.model.UserId;
 import com.kanrisoft.kanri.user.model.UserStatus;
+import com.kanrisoft.kanri.user.util.UserUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

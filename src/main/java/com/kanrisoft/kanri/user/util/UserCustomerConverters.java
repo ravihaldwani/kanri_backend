@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.user;
+package com.kanrisoft.kanri.user.util;
 
 import com.kanrisoft.kanri.space.CustomConverter;
 import com.kanrisoft.kanri.user.model.Role;

@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.user;
+package com.kanrisoft.kanri.user.util;
 
 import com.google.common.hash.Hashing;
 import com.kanrisoft.kanri.user.model.User;
