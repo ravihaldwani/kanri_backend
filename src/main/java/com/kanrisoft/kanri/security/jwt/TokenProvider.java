@@ -3,7 +3,7 @@ package com.kanrisoft.kanri.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.Instant;
 import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -21,17 +21,42 @@ import java.util.stream.Collectors;
 public class TokenProvider implements Serializable {
 
     private final JwtProperties jwtProperties;
+    private final Key key;
 
-    public TokenProvider(JwtProperties jwtProperties) {
+    public TokenProvider(JwtProperties jwtProperties, Key key) {
         this.jwtProperties = jwtProperties;
-    }
-
-    private Key getKey() {
-        return Keys.hmacShaKeyFor(this.jwtProperties.getSigningKey().getBytes(StandardCharsets.UTF_8));
+        this.key = key;
     }
 
     public String getUsernameFromToken(String authToken) {
         return getClaimFromToken(authToken, Claims::getSubject);
+    }
+
+    public boolean validateToken(String authToken, UserDetails userDetails) {
+        final String username = getUsernameFromToken(authToken);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(authToken));
+    }
+
+    public String generateToken(Authentication authentication) {
+        var authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+        var expirationDate = Date.from(Instant.now().plusSeconds(jwtProperties.getToken().getValidity()));
+
+        return Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim(jwtProperties.getAuthoritiesKey(), authorities)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(expirationDate)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+
+    public AbstractAuthenticationToken getAuthenticationToken(UserDetails userDetails) {
+        final var authorities = userDetails.getAuthorities();
+
+        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 
     public Date getExpirationDateFromToken(String token) {
@@ -49,37 +74,9 @@ public class TokenProvider implements Serializable {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(getKey())
+        return Jwts.parserBuilder().setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-    public boolean validateToken(String authToken, UserDetails userDetails) {
-        final String username = getUsernameFromToken(authToken);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(authToken));
-    }
-
-    public String generateToken(Authentication authentication) {
-        var authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        return Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(jwtProperties.getAuthoritiesKey(), authorities)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getToken().getValidity() * 1000))
-                .signWith(getKey(), SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-
-    public UsernamePasswordAuthenticationToken getAuthenticationToken(UserDetails userDetails) {
-        final var authorities = userDetails.getAuthorities();
-
-        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
-    }
-
-
 }

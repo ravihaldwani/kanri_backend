@@ -1,7 +1,7 @@
 package com.kanrisoft.kanri.config;
 
-import com.kanrisoft.kanri.security.jwt.JwtAuthenticationFilter;
 import com.kanrisoft.kanri.security.UnauthorizedEntryPoint;
+import com.kanrisoft.kanri.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SecurityConfig(
             UserDetailsService userDetailsService,
             UnauthorizedEntryPoint unauthorizedEntryPoint,
-            JwtAuthenticationFilter jwtAuthenticationFilter, PasswordEncoder passwordEncoder
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            PasswordEncoder passwordEncoder
     ) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedEntryPoint = unauthorizedEntryPoint;
