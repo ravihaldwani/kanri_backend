@@ -59,7 +59,7 @@ public class DbConfig extends AbstractJdbcConfiguration {
 
         @Override
         public String[] convert(Set<Role> source) {
-            return (String[]) source.stream().map(Enum::name).toArray();
+            return source.stream().map(Enum::name).toArray(String[]::new);
         }
     }
 
