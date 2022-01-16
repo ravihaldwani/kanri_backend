@@ -1,6 +1,6 @@
 package com.kanrisoft.kanri.user.model;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class RegistrationRequest {

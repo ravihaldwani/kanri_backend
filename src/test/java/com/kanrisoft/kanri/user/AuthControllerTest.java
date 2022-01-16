@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
@@ -44,6 +46,19 @@ class AuthControllerTest {
                     )
                     .andExpect(status().isOk())
                     .andExpect(header().stringValues("Authorization", dummyToken));
+        }
+
+        @Test
+        void shouldReturn401ForInvalidUser() throws Exception {
+            var request = MockUser.getLoginRequest("test@test.com", "password");
+            byte[] body = TestUtil.convertObjectToJsonBytes(request);
+            when(loginService.login(request)).thenThrow(BadCredentialsException.class);
+
+            mvc.perform(
+                            post("/api/v1/login").contentType(MediaType.APPLICATION_JSON)
+                                    .content(body)
+                    )
+                    .andExpect(status().isUnauthorized());
         }
     }
 }
