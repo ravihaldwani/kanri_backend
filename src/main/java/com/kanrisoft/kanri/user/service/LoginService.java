@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.user;
+package com.kanrisoft.kanri.user.service;
 
 import com.kanrisoft.kanri.user.model.LoginRequest;
 import org.springframework.security.core.AuthenticationException;

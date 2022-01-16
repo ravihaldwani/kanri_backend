@@ -1,9 +1,7 @@
-package com.kanrisoft.kanri.user;
+package com.kanrisoft.kanri.user.domain;
 
 import com.kanrisoft.kanri.user.exception.EmailAlreadyUsedException;
-import com.kanrisoft.kanri.user.model.RegisterRequest;
-import com.kanrisoft.kanri.user.model.Role;
-import com.kanrisoft.kanri.user.model.User;
+import com.kanrisoft.kanri.user.model.RegistrationRequest;
 import com.kanrisoft.kanri.user.model.UserDto;
 import com.kanrisoft.kanri.user.service.UserService;
 import com.kanrisoft.kanri.user.service.UserValidator;
@@ -31,7 +29,7 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(RegisterRequest request) {
+    public User register(RegistrationRequest request) {
         validator.validateRegistrationRequest(request);
 
         if (repository.findByEmail(request.getEmail()).isPresent())

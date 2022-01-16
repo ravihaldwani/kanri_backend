@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.user.model;
+package com.kanrisoft.kanri.user.domain;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

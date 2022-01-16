@@ -1,8 +1,8 @@
 package com.kanrisoft.kanri.user.util;
 
 import com.kanrisoft.kanri.space.CustomConverter;
-import com.kanrisoft.kanri.user.model.Role;
-import com.kanrisoft.kanri.user.model.UserId;
+import com.kanrisoft.kanri.user.domain.Role;
+import com.kanrisoft.kanri.user.domain.UserId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;

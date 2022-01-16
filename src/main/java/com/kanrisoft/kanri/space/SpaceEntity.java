@@ -1,7 +1,7 @@
 package com.kanrisoft.kanri.space;
 
 import com.kanrisoft.kanri.board.BoardId;
-import com.kanrisoft.kanri.user.model.UserId;
+import com.kanrisoft.kanri.user.domain.UserId;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;

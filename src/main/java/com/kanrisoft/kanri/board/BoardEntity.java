@@ -1,8 +1,8 @@
 package com.kanrisoft.kanri.board;
 
 import com.kanrisoft.kanri.task.TaskId;
-import com.kanrisoft.kanri.user.model.User;
-import com.kanrisoft.kanri.user.model.UserId;
+import com.kanrisoft.kanri.user.domain.User;
+import com.kanrisoft.kanri.user.domain.UserId;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -14,7 +14,6 @@ import org.springframework.scheduling.config.Task;
 
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

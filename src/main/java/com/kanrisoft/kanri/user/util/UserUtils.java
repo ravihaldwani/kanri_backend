@@ -1,7 +1,7 @@
 package com.kanrisoft.kanri.user.util;
 
 import com.google.common.hash.Hashing;
-import com.kanrisoft.kanri.user.model.User;
+import com.kanrisoft.kanri.user.domain.User;
 import com.kanrisoft.kanri.user.model.UserDto;
 
 import java.nio.charset.StandardCharsets;

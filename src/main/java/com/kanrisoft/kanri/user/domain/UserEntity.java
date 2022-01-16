@@ -1,14 +1,13 @@
-package com.kanrisoft.kanri.user;
+package com.kanrisoft.kanri.user.domain;
 
-import com.kanrisoft.kanri.user.model.Role;
-import com.kanrisoft.kanri.user.model.User;
-import com.kanrisoft.kanri.user.model.UserId;
-import com.kanrisoft.kanri.user.model.UserStatus;
 import com.kanrisoft.kanri.user.util.UserUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

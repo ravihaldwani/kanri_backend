@@ -1,7 +1,7 @@
 package com.kanrisoft.kanri.config;
 
-import com.kanrisoft.kanri.user.model.User;
-import com.kanrisoft.kanri.user.model.UserId;
+import com.kanrisoft.kanri.user.domain.User;
+import com.kanrisoft.kanri.user.domain.UserId;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.AuditorAware;

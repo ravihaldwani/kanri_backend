@@ -1,5 +1,6 @@
 package com.kanrisoft.kanri.user.model;
 
+import com.kanrisoft.kanri.user.domain.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,4 +17,3 @@ public class UserDto {
     private UserStatus status;
     private boolean activated;
 }
-
