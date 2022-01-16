@@ -8,6 +8,8 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
+import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,9 +39,13 @@ class UserEntity implements User {
     private Instant createdDate;
     private UserStatus status;
     private boolean activated;
+
     @CreatedBy
+    @Embedded.Nullable(prefix = "created_by_")
     private UserId createdBy;
+
     @LastModifiedBy
+    @Embedded.Nullable(prefix = "last_modified_by_")
     private UserId lastModifiedBy;
 
     private UserEntity(
