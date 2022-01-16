@@ -6,7 +6,7 @@ import com.kanrisoft.kanri.user.model.RegistrationRequest;
 
 public class MockUser {
 
-    static RegistrationRequest getRegistrationRequest() {
+    public static RegistrationRequest getRegistrationRequest() {
         var request = new RegistrationRequest();
         request.setEmail("test@test.com");
         request.setPassword("password");
@@ -16,7 +16,7 @@ public class MockUser {
         return request;
     }
 
-    static LoginRequest getLoginRequest(String email, String password) {
+    public static LoginRequest getLoginRequest(String email, String password) {
         return new LoginRequest(email, password);
     }
 
