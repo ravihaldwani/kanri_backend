@@ -1,9 +1,13 @@
 package com.kanrisoft.kanri.user.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginRequest {
-    final String email;
-    final String password;
+    private String email;
+    private String password;
 }
