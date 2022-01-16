@@ -1,7 +1,7 @@
 package com.kanrisoft.kanri.user.service;
 
 import com.kanrisoft.kanri.user.exception.InvalidRequestException;
-import com.kanrisoft.kanri.user.model.RegisterRequest;
+import com.kanrisoft.kanri.user.model.RegistrationRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class UserValidatorTest {
 
     @Test
     void shouldThrowErrorIfInvalidData() {
-        RegisterRequest request = new RegisterRequest();
+        RegistrationRequest request = new RegistrationRequest();
         request.setEmail("");
         request.setPassword("");
 
@@ -27,7 +27,7 @@ class UserValidatorTest {
 
     @Test
     void shouldNotThrowErrorIfValidData() {
-        RegisterRequest request = new RegisterRequest();
+        RegistrationRequest request = new RegistrationRequest();
         request.setEmail("test@test.com");
         request.setPassword("password");
 

@@ -1,8 +1,8 @@
-package com.kanrisoft.kanri.user;
+package com.kanrisoft.kanri.user.domain;
 
 import com.kanrisoft.kanri.user.exception.EmailAlreadyUsedException;
 import com.kanrisoft.kanri.user.exception.InvalidRequestException;
-import com.kanrisoft.kanri.user.model.RegisterRequest;
+import com.kanrisoft.kanri.user.model.RegistrationRequest;
 import com.kanrisoft.kanri.user.service.UserValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +39,7 @@ class UserServiceImplTest {
 
     @Test
     void shouldThrowErrorIfInvalidData() {
-        RegisterRequest user = new RegisterRequest();
+        RegistrationRequest user = new RegistrationRequest();
         doThrow(InvalidRequestException.class).when(validator).validateRegistrationRequest(user);
 
         assertThrows(InvalidRequestException.class, () -> underTest.register(user));
@@ -47,7 +47,7 @@ class UserServiceImplTest {
 
     @Test
     void shouldNotThrowErrorIfValidData() {
-        RegisterRequest user = new RegisterRequest();
+        RegistrationRequest user = new RegistrationRequest();
         user.setEmail("test@test.com");
         user.setPassword("password");
 
@@ -60,7 +60,7 @@ class UserServiceImplTest {
 
     @Test
     void shouldReturnUserIfValidData() {
-        RegisterRequest request = new RegisterRequest();
+        RegistrationRequest request = new RegistrationRequest();
         request.setEmail("test@test.com");
         request.setPassword("password");
         var argumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
@@ -77,7 +77,7 @@ class UserServiceImplTest {
 
     @Test
     void shouldThrowEmailExistsException() {
-        RegisterRequest request = new RegisterRequest();
+        RegistrationRequest request = new RegistrationRequest();
         request.setEmail("test@test.com");
         request.setPassword("password");
         var mockUser = mock(UserEntity.class);

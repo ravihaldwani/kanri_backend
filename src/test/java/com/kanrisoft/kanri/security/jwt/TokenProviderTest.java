@@ -46,7 +46,8 @@ class TokenProviderTest {
 
     @Test
     void getExpirationDateFromToken() {
-        Date expectedDate = Date.from(Instant.now().plus(Duration.ofMinutes(10)).truncatedTo(ChronoUnit.MINUTES));
+        Date expectedDate = Date.from(Instant.now().plus(Duration.ofMinutes(10))
+                .truncatedTo(ChronoUnit.SECONDS));
         String token = Jwts.builder().setExpiration(expectedDate).signWith(key, SignatureAlgorithm.HS256).compact();
 
         var date = underTest.getExpirationDateFromToken(token);
@@ -57,7 +58,8 @@ class TokenProviderTest {
     @Test
     void validateToken() {
         String expectedUsername = "test@test.com";
-        Date expectedDate = Date.from(Instant.now().plus(Duration.ofMinutes(10)).truncatedTo(ChronoUnit.MINUTES));
+        Date expectedDate = Date.from(Instant.now()
+                .plus(Duration.ofMinutes(10)));
         String token = Jwts.builder().setSubject(expectedUsername)
                 .setExpiration(expectedDate)
                 .signWith(key, SignatureAlgorithm.HS256).compact();
