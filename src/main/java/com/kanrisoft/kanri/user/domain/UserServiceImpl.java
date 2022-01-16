@@ -6,6 +6,7 @@ import com.kanrisoft.kanri.user.model.UserDto;
 import com.kanrisoft.kanri.user.service.UserService;
 import com.kanrisoft.kanri.user.service.UserValidator;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,13 +33,19 @@ class UserServiceImpl implements UserService {
     public User register(RegistrationRequest request) {
         validator.validateRegistrationRequest(request);
 
-        if (repository.findByEmail(request.getEmail()).isPresent())
+        if (repository.existsByEmail(request.getEmail()))
             throw new EmailAlreadyUsedException(request.getEmail());
 
+        UserEntity user = createUserFromRequest(request);
+        return repository.save(user);
+    }
+
+    @NotNull
+    UserEntity createUserFromRequest(RegistrationRequest request) {
         var encodedPassword = passwordEncoder.encode(request.getPassword());
         UserEntity user = UserEntity.of(request.getFirstName(), request.getLastName(), request.getEmail(), encodedPassword, request.getPhone());
         user.addRole(Role.USER);
-        return repository.save(user);
+        return user;
     }
 
     @Override
