@@ -5,7 +5,7 @@ import org.springframework.core.convert.converter.Converter;
 
 import java.util.List;
 
-public interface CustomConverter {
+public interface ConverterProvider {
     @NotNull
     List<Converter<?, ?>> getConverters();
 }

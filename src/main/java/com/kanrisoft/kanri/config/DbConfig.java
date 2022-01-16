@@ -1,6 +1,6 @@
 package com.kanrisoft.kanri.config;
 
-import com.kanrisoft.kanri.space.CustomConverter;
+import com.kanrisoft.kanri.space.ConverterProvider;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class DbConfig extends AbstractJdbcConfiguration {
-    private final List<CustomConverter> converters;
+    private final List<ConverterProvider> converters;
 
-    public DbConfig(List<CustomConverter> converters) {
+    public DbConfig(List<ConverterProvider> converters) {
         this.converters = converters;
     }
 
@@ -24,7 +24,7 @@ public class DbConfig extends AbstractJdbcConfiguration {
     public @NotNull JdbcCustomConversions jdbcCustomConversions() {
         var converters = this.converters
                 .stream()
-                .map(CustomConverter::getConverters)
+                .map(ConverterProvider::getConverters)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
 

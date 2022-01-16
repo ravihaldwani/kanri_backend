@@ -1,6 +1,6 @@
 package com.kanrisoft.kanri.user.util;
 
-import com.kanrisoft.kanri.space.CustomConverter;
+import com.kanrisoft.kanri.space.ConverterProvider;
 import com.kanrisoft.kanri.user.domain.Role;
 import com.kanrisoft.kanri.user.domain.UserId;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 import static java.util.Arrays.asList;
 
 @Configuration
-class UserCustomerConverters implements CustomConverter {
+class UserConverterProvider implements ConverterProvider {
+
     @Override
     public @NotNull List<Converter<?, ?>> getConverters() {
         return asList(

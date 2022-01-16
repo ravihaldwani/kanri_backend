@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Configuration
-public class SpaceConverters implements CustomConverter {
+public class SpaceConverters implements ConverterProvider {
     @Override
     public @NotNull List<Converter<?, ?>> getConverters() {
         return Collections.emptyList();
