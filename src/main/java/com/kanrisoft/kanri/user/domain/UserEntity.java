@@ -8,7 +8,6 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.security.core.GrantedAuthority;
@@ -56,7 +55,7 @@ class UserEntity implements User {
             String password,
             String phone,
             Instant createdDate,
-            Set<Role> roles,
+            Set<Object> roles,// NOTE: Set<Object> because the data jdbc deserializes to string
             UserStatus status,
             boolean activated,
             String activationKey,
@@ -70,7 +69,7 @@ class UserEntity implements User {
         this.password = password;
         this.phone = phone;
         this.createdDate = createdDate;
-        this.roles = roles;
+        this.roles = UserUtils.mapToRoleSet(roles);
         this.status = status;
         this.activated = activated;
         this.activationKey = activationKey;
