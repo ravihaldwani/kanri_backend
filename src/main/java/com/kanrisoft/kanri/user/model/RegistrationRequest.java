@@ -1,14 +1,8 @@
 package com.kanrisoft.kanri.user.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class RegistrationRequest {
     private String firstName;
     private String lastName;
