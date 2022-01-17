@@ -33,7 +33,7 @@ class UserServiceImpl implements UserService {
     public User register(RegistrationRequest request) {
         validator.validateRegistrationRequest(request);
 
-        if (repository.existsByEmail(request.getEmail()))
+        if (repository.existsByEmail(Email.of(request.getEmail())))
             throw new EmailAlreadyUsedException(request.getEmail());
 
         UserEntity user = createUserFromRequest(request);
@@ -43,7 +43,7 @@ class UserServiceImpl implements UserService {
     @NotNull
     UserEntity createUserFromRequest(RegistrationRequest request) {
         var encodedPassword = passwordEncoder.encode(request.getPassword());
-        UserEntity user = UserEntity.of(request.getFirstName(), request.getLastName(), request.getEmail(), encodedPassword, request.getPhone());
+        UserEntity user = UserEntity.of(request.getFirstName(), request.getLastName(), Email.of(request.getEmail()), encodedPassword, request.getPhone());
         user.addRole(Role.USER);
         return user;
     }
@@ -86,7 +86,7 @@ class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<? extends User> user = Optional.empty();
         try {
-            user = repository.findByEmail(username);
+            user = repository.findByEmail(Email.of(username));
             log.debug(user.toString());
         } catch (Exception e) {
             e.printStackTrace();

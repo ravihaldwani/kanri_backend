@@ -83,7 +83,7 @@ class UserServiceImplTest {
             RegistrationRequest request = new RegistrationRequest();
             request.setEmail("test@test.com");
             request.setPassword("password");
-            given(repository.existsByEmail(request.getEmail())).willReturn(true);
+            given(repository.existsByEmail(Email.of(request.getEmail()))).willReturn(true);
 
             assertThrows(EmailAlreadyUsedException.class, () -> underTest.register(request));
         }
@@ -138,7 +138,7 @@ class UserServiceImplTest {
             assertAll(
                     () -> assertEquals(request.getFirstName(), user.getFirstName()),
                     () -> assertEquals(request.getLastName(), user.getLastName()),
-                    () -> assertEquals(request.getEmail(), user.getEmail()),
+                    () -> assertEquals(request.getEmail(), user.getEmail().getValue()),
                     () -> assertEquals(request.getPhone(), user.getPhone())
             );
         }

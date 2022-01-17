@@ -26,14 +26,19 @@ class UserEntity implements User {
 
     @Id
     private final Long id;
+
     @MappedCollection
     private final Set<Role> roles;
+
     private String activationKey;
     private String firstName;
     private String lastName;
     private String phone;
-    private String email;
+
+    @Embedded.Empty
+    private Email email;
     private String password;
+
     @CreatedDate
     private Instant createdDate;
     private UserStatus status;
@@ -51,7 +56,7 @@ class UserEntity implements User {
             Long id,
             String firstName,
             String lastName,
-            String email,
+            Email email,
             String password,
             String phone,
             Instant createdDate,
@@ -77,8 +82,8 @@ class UserEntity implements User {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public static UserEntity of(String firstName, String lastName, String email, String password, String phone) {
-        var activationKey = UserUtils.generateActivationKey(email);
+    public static UserEntity of(String firstName, String lastName, Email email, String password, String phone) {
+        var activationKey = UserUtils.generateActivationKey(email.getValue());
         return new UserEntity(
                 null,
                 firstName,
@@ -125,7 +130,7 @@ class UserEntity implements User {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.email.getValue();
     }
 
     @Override

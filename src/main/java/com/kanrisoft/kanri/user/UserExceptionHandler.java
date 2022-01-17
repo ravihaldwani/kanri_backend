@@ -1,6 +1,7 @@
 package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.user.exception.EmailAlreadyUsedException;
+import com.kanrisoft.kanri.user.exception.InvalidEmailException;
 import com.kanrisoft.kanri.user.exception.InvalidRequestException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,22 +33,22 @@ class MultipleApiError implements ApiError {
 @ControllerAdvice
 public class UserExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(EmailAlreadyUsedException.class)
+    @ExceptionHandler({EmailAlreadyUsedException.class, AuthenticationException.class})
     ResponseEntity<Object> handleEmailAlreadyExists(EmailAlreadyUsedException ex) {
         var body = ErrorResponse.ofSingle(ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
     }
 
-    @ExceptionHandler(AuthenticationException.class)
-    ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex) {
-        var body = ErrorResponse.ofSingle(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
-    }
-
-    @ExceptionHandler(InvalidRequestException.class)
-    ResponseEntity<Object> handleInvalidRequestException(InvalidRequestException ex) {
+    @ExceptionHandler({InvalidRequestException.class, InvalidEmailException.class})
+    ResponseEntity<Object> handleInvalidRequestException(RuntimeException ex) {
         var body = ErrorResponse.ofSingle(ex.getMessage());
         return ResponseEntity.badRequest().body(body);
+    }
+
+    @ExceptionHandler(Exception.class)
+    ResponseEntity<Object> handleException(Exception ex) {
+        var body = ErrorResponse.ofSingle(ex.getMessage());
+        return ResponseEntity.internalServerError().body(body);
     }
 }
 

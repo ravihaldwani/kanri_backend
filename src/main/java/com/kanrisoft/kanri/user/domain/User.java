@@ -32,9 +32,9 @@ public interface User extends UserDetails {
 
     Set<Role> getRoles();
 
-    String getEmail();
+    Email getEmail();
 
-    void setEmail(String email);
+    void setEmail(Email email);
 
     void setPassword(String password);
 
