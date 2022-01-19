@@ -16,9 +16,9 @@ public interface User extends UserDetails {
 
     void setLastName(String lastName);
 
-    String getPhone();
+    PhoneNumber getPhone();
 
-    void setPhone(String phone);
+    void setPhone(PhoneNumber phone);
 
     UserStatus getStatus();
 

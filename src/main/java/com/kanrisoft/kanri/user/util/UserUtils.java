@@ -15,7 +15,7 @@ public class UserUtils {
         userDto.setEmail(user.getEmail().getValue());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
-        userDto.setPhone(user.getPhone());
+        userDto.setPhone(user.getPhone().getValue());
         userDto.setStatus(user.getStatus());
         userDto.setCreatedDate(user.getCreatedDate());
         userDto.setActivated(user.isActivated());

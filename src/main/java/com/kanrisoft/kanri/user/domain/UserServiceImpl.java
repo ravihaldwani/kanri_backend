@@ -43,7 +43,7 @@ class UserServiceImpl implements UserService {
     @NotNull
     UserEntity createUserFromRequest(RegistrationRequest request) {
         var encodedPassword = passwordEncoder.encode(request.getPassword());
-        UserEntity user = UserEntity.of(request.getFirstName(), request.getLastName(), Email.of(request.getEmail()), encodedPassword, request.getPhone());
+        UserEntity user = UserEntity.of(request.getFirstName(), request.getLastName(), Email.of(request.getEmail()), encodedPassword, PhoneNumber.of(request.getPhone()));
         user.addRole(Role.USER);
         return user;
     }
@@ -62,7 +62,7 @@ class UserServiceImpl implements UserService {
         var userEntity = repository.findById(userId).get();
         userEntity.setFirstName(request.getFirstName());
         userEntity.setLastName(request.getLastName());
-        userEntity.setPhone(request.getPhone());
+        userEntity.setPhone(PhoneNumber.of(request.getPhone()));
         return repository.save(userEntity);
     }
 

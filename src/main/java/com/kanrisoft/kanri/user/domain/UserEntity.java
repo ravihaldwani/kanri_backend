@@ -33,7 +33,9 @@ class UserEntity implements User {
     private String activationKey;
     private String firstName;
     private String lastName;
-    private String phone;
+
+    @Embedded.Empty
+    private PhoneNumber phone;
 
     @Embedded.Empty
     private Email email;
@@ -58,7 +60,7 @@ class UserEntity implements User {
             String lastName,
             Email email,
             String password,
-            String phone,
+            PhoneNumber phone,
             Instant createdDate,
             Set<Object> roles,// NOTE: Set<Object> because the data jdbc deserializes to string
             UserStatus status,
@@ -82,7 +84,7 @@ class UserEntity implements User {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public static UserEntity of(String firstName, String lastName, Email email, String password, String phone) {
+    public static UserEntity of(String firstName, String lastName, Email email, String password, PhoneNumber phone) {
         var activationKey = UserUtils.generateActivationKey(email.getValue());
         return new UserEntity(
                 null,
