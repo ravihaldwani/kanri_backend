@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ class UserEntity implements User {
     private String firstName;
     private String lastName;
 
-    @Embedded.Empty
+    @Embedded.Nullable
     private PhoneNumber phone;
 
     @Embedded.Empty
@@ -128,6 +129,11 @@ class UserEntity implements User {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Optional<PhoneNumber> getPhone() {
+        return Optional.ofNullable(phone);
     }
 
     @Override

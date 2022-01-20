@@ -43,7 +43,8 @@ class UserServiceImpl implements UserService {
     @NotNull
     UserEntity createUserFromRequest(RegistrationRequest request) {
         var encodedPassword = passwordEncoder.encode(request.getPassword());
-        UserEntity user = UserEntity.of(request.getFirstName(), request.getLastName(), Email.of(request.getEmail()), encodedPassword, PhoneNumber.of(request.getPhone()));
+        var phone = request.getPhone() != null ? PhoneNumber.of(request.getPhone()) : null;
+        UserEntity user = UserEntity.of(request.getFirstName(), request.getLastName(), Email.of(request.getEmail()), encodedPassword, phone);
         user.addRole(Role.USER);
         return user;
     }

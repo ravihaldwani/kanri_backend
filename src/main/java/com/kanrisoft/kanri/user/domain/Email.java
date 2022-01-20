@@ -1,24 +1,25 @@
 package com.kanrisoft.kanri.user.domain;
 
 import com.kanrisoft.kanri.shared.Constants;
+import com.kanrisoft.kanri.shared.ValueValidator;
 import com.kanrisoft.kanri.user.exception.InvalidEmailException;
 
 import java.util.Objects;
 
-class EmailValidator {
+class EmailValidator implements ValueValidator<String> {
 
     public static EmailValidator getInstance() {
         return new EmailValidator();
     }
 
-    boolean isValid(String email) {
+    public boolean isValid(String email) {
         if (email == null || email.isBlank()) return false;
         return Constants.VALID_EMAIL_ADDRESS_REGEX.matcher(email).matches();
     }
 }
 
 public final class Email {
-    private static final EmailValidator validator = EmailValidator.getInstance();
+    private static final ValueValidator<String> validator = EmailValidator.getInstance();
     private final String email;
 
     private Email(String email) {

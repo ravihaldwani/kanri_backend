@@ -3,6 +3,7 @@ package com.kanrisoft.kanri.user.domain;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.Set;
 
 public interface User extends UserDetails {
@@ -16,7 +17,7 @@ public interface User extends UserDetails {
 
     void setLastName(String lastName);
 
-    PhoneNumber getPhone();
+    Optional<PhoneNumber> getPhone();
 
     void setPhone(PhoneNumber phone);
 

@@ -39,7 +39,7 @@ public class UserExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
     }
 
-    @ExceptionHandler({InvalidRequestException.class, InvalidEmailException.class})
+    @ExceptionHandler({InvalidRequestException.class, InvalidEmailException.class, IllegalArgumentException.class})
     ResponseEntity<Object> handleInvalidRequestException(RuntimeException ex) {
         var body = ErrorResponse.ofSingle(ex.getMessage());
         return ResponseEntity.badRequest().body(body);
