@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:tc:postgresql:13.4:///karnitest?TC_INITSCRIPT=file:src/main/resources/schema.sql
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
