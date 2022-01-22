@@ -1,29 +1,35 @@
 package com.kanrisoft.kanri.config;
 
 
-import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.test.context.ActiveProfiles;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Order(1)
-@TestConfiguration
+@ActiveProfiles("test")
+@Configuration
 @EnableWebSecurity
-@EnableWebMvc
 public class TestSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // Disable CSRF
-        httpSecurity.csrf().disable()
+        AuthenticationEntryPoint unauthorizedEntryPoint = (request, response, authenticationException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error : Unauthorized");
+
+        httpSecurity.cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/user/register").permitAll()
                 .antMatchers("/api/v1/user/activate").permitAll()
                 .antMatchers("/api/v1/login").permitAll()   // Permit all requests without authentication
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
     }
 }

@@ -1,7 +1,7 @@
 package com.kanrisoft.kanri.user;
 
 import com.kanrisoft.kanri.TestUtil;
-import com.kanrisoft.kanri.config.TestSecurityConfig;
+import com.kanrisoft.kanri.config.MyControllerTest;
 import com.kanrisoft.kanri.user.domain.Email;
 import com.kanrisoft.kanri.user.domain.User;
 import com.kanrisoft.kanri.user.model.RegistrationRequest;
@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,16 +25,14 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@MyControllerTest
+@WebMvcTest(UserController.class)
+@Import(UserController.class)
 class UserControllerTest {
     private final String baseUrl = "/api/v1/user";
 
     @MockBean
     private UserService userService;
-
-    @MockBean
-    private TestSecurityConfig securityConfig;
 
     @Autowired
     private MockMvc mvc;

@@ -28,7 +28,6 @@ public abstract class DbConfig {
 
         @Override
         public void initialize(ConfigurableApplicationContext applicationContext) {
-
             TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
                     applicationContext,
                     "spring.datasource.url=" + postgreDBContainer.getJdbcUrl(),

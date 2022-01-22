@@ -1,6 +1,7 @@
 package com.kanrisoft.kanri.user.domain;
 
 import com.kanrisoft.kanri.user.util.UserUtils;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString(exclude = {"password"})
+@EqualsAndHashCode
 class UserEntity implements User {
 
     @Id
