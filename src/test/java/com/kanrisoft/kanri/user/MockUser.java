@@ -12,7 +12,7 @@ public class MockUser {
         request.setPassword("password");
         request.setFirstName("first");
         request.setLastName("last");
-        request.setPhone("324971290348");
+        request.setPhone("9471290348");
         return request;
     }
 
