@@ -11,19 +11,15 @@ public interface User extends UserDetails {
 
     String getFirstName();
 
-    void setFirstName(String firstName);
-
     String getLastName();
 
-    void setLastName(String lastName);
+    boolean removeRole(Role role);
+
+    boolean hasRole(Role role);
 
     Optional<PhoneNumber> getPhone();
 
-    void setPhone(PhoneNumber phone);
-
     UserStatus getStatus();
-
-    void setStatus(UserStatus status);
 
     boolean isActivated();
 
@@ -35,10 +31,5 @@ public interface User extends UserDetails {
 
     Email getEmail();
 
-    void setEmail(Email email);
-
-    void setPassword(String password);
-
     Instant getCreatedDate();
-
 }

@@ -42,11 +42,14 @@ class UserEntity implements User {
 
     @Embedded.Empty
     private Email email;
+
     private String password;
 
     @CreatedDate
     private Instant createdDate;
+
     private UserStatus status;
+
     private boolean activated;
 
     @CreatedBy
@@ -123,8 +126,14 @@ class UserEntity implements User {
         return roles.add(role);
     }
 
+    @Override
     public boolean removeRole(Role role) {
         return roles.remove(role);
+    }
+
+    @Override
+    public boolean hasRole(Role role) {
+        return roles.contains(role);
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {

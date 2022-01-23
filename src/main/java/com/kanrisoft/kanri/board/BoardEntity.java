@@ -1,10 +1,10 @@
 package com.kanrisoft.kanri.board;
 
 import com.kanrisoft.kanri.task.TaskId;
-import com.kanrisoft.kanri.user.domain.User;
 import com.kanrisoft.kanri.user.domain.UserId;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -21,23 +21,17 @@ import java.util.Set;
 @Setter
 class BoardEntity implements Board {
     @Id
-    final Long id;
-
-    String name;
-
-    @CreatedBy
-    UserId createdBy;
-
-    @CreatedDate
-    Instant createdDate;
-
-    @LastModifiedBy
-    UserId lastModifiedBy;
-
+    private final Long id;
     @MappedCollection(keyColumn = "user_id")
-    Map<UserId, BoardPermissions> members = new HashMap<>();
-
-    Map<TaskId, Task> tasks;
+    private final Map<UserId, BoardPermissions> members = new HashMap<>();
+    private String name;
+    @CreatedBy
+    private UserId createdBy;
+    @CreatedDate
+    private Instant createdDate;
+    @LastModifiedBy
+    private UserId lastModifiedBy;
+    private Map<TaskId, Task> tasks;
 
     private BoardEntity(Long id) {
         this.id = id;
@@ -47,14 +41,12 @@ class BoardEntity implements Board {
         return new BoardEntity(null);
     }
 
-    boolean addMember(User user, Set<Permission> permissions) {
-        var userid = UserId.of(user.getId());
+    boolean addMember(@NotNull UserId userid, Set<Permission> permissions) {
         members.putIfAbsent(userid, new BoardPermissions(permissions));
         return true;
     }
 
-    boolean doesUserHavePermissionOf(User user, Permission permission) {
-        var userid = UserId.of(user.getId());
+    boolean doesUserHavePermissionOf(@NotNull UserId userid, Permission permission) {
         return members.get(userid).hasPermission(permission);
     }
 }

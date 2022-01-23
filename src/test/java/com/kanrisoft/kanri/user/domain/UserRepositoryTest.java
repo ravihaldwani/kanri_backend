@@ -1,12 +1,13 @@
 package com.kanrisoft.kanri.user.domain;
 
-import com.kanrisoft.kanri.user.DbConfig;
+import com.kanrisoft.kanri.user.DatabaseIntegration;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserRepositoryTest extends DbConfig {
+class UserRepositoryTest extends DatabaseIntegration {
 
     @Autowired
     private UserRepository repository;
@@ -20,13 +21,13 @@ class UserRepositoryTest extends DbConfig {
 
         assertAll(
                 () -> assertNotNull(savedOne.getId()),
-                () -> assertEquals(savedOne.getEmail(), entity.getEmail()),
-                () -> assertEquals(savedOne.getFirstName(), entity.getFirstName()),
-                () -> assertEquals(savedOne.getLastName(), entity.getLastName()),
-                () -> assertEquals(savedOne.getPassword(), entity.getPassword()),
-                () -> assertEquals(savedOne.getPhone(), entity.getPhone()),
-                () -> assertEquals(savedOne.getRoles(), entity.getRoles()),
-                () -> assertEquals(savedOne.getStatus(), entity.getStatus())
+                () -> Assertions.assertEquals(savedOne.getEmail(), entity.getEmail()),
+                () -> Assertions.assertEquals(savedOne.getFirstName(), entity.getFirstName()),
+                () -> Assertions.assertEquals(savedOne.getLastName(), entity.getLastName()),
+                () -> Assertions.assertEquals(savedOne.getPassword(), entity.getPassword()),
+                () -> Assertions.assertEquals(savedOne.getPhone(), entity.getPhone()),
+                () -> Assertions.assertEquals(savedOne.getRoles(), entity.getRoles()),
+                () -> Assertions.assertEquals(savedOne.getStatus(), entity.getStatus())
         );
     }
 
@@ -38,7 +39,7 @@ class UserRepositoryTest extends DbConfig {
 
         var searchedOne = repository.findByEmail(email);
 
-        assertEquals(savedOne, searchedOne.get());
+        Assertions.assertEquals(savedOne, searchedOne.get());
     }
 
     @Test
@@ -47,12 +48,12 @@ class UserRepositoryTest extends DbConfig {
         var entity = UserEntity.of("first", "last", email, "password", null);
 
         var beforeSave = repository.findByEmail(email);
-        assertTrue(beforeSave.isEmpty());
+        Assertions.assertTrue(beforeSave.isEmpty());
 
         repository.save(entity);
 
         var afterSave = repository.findByEmail(email);
-        assertTrue(afterSave.isPresent());
+        Assertions.assertTrue(afterSave.isPresent());
     }
 
     @Test
@@ -61,12 +62,12 @@ class UserRepositoryTest extends DbConfig {
         var entity = UserEntity.of("first", "last", email, "password", null);
 
         var existsBeforeSave = repository.existsByEmail(email);
-        assertFalse(existsBeforeSave);
+        Assertions.assertFalse(existsBeforeSave);
 
         repository.save(entity);
 
         var existsAfterSave = repository.existsByEmail(email);
-        assertTrue(existsAfterSave);
+        Assertions.assertTrue(existsAfterSave);
     }
 
     @Test
@@ -76,11 +77,11 @@ class UserRepositoryTest extends DbConfig {
         var activationKey = entity.getActivationKey();
 
         var beforeSave = repository.findByActivationKey(activationKey);
-        assertTrue(beforeSave.isEmpty());
+        Assertions.assertTrue(beforeSave.isEmpty());
 
         repository.save(entity);
 
         var afterSave = repository.findByActivationKey(activationKey);
-        assertTrue(afterSave.isPresent());
+        Assertions.assertTrue(afterSave.isPresent());
     }
 }

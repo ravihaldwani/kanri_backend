@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.space;
+package com.kanrisoft.kanri.space.domain;
 
 import lombok.Value;
 

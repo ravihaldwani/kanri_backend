@@ -1,6 +1,6 @@
 package com.kanrisoft.kanri.user.util;
 
-import com.kanrisoft.kanri.space.ConverterProvider;
+import com.kanrisoft.kanri.shared.ConverterProvider;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
