@@ -1,6 +1,6 @@
 package com.kanrisoft.kanri.space.domain;
 
-import com.kanrisoft.kanri.board.BoardId;
+import com.kanrisoft.kanri.board.domian.BoardId;
 import com.kanrisoft.kanri.user.DatabaseIntegration;
 import com.kanrisoft.kanri.user.domain.UserId;
 import org.junit.jupiter.api.Test;

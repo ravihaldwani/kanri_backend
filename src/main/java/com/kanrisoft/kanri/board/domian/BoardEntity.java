@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.board;
+package com.kanrisoft.kanri.board.domian;
 
 import com.kanrisoft.kanri.task.TaskId;
 import com.kanrisoft.kanri.user.domain.UserId;

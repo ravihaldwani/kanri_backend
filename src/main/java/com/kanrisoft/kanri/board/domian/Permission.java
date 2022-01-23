@@ -1,4 +1,4 @@
-package com.kanrisoft.kanri.board;
+package com.kanrisoft.kanri.board.domian;
 
 public enum Permission {
     ADMIN,
