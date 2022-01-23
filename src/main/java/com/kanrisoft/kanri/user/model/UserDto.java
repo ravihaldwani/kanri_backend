@@ -1,19 +1,16 @@
 package com.kanrisoft.kanri.user.model;
 
 import com.kanrisoft.kanri.user.domain.UserStatus;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.Instant;
 
-@Setter
-@Getter
-public class UserDto {
-    private String firstName;
-    private String lastName;
-    private String phone;
-    private String email;
-    private Instant createdDate;
-    private UserStatus status;
-    private boolean activated;
+public record UserDto(
+        String firstName,
+        String lastName,
+        String phone,
+        String email,
+        Instant createdDate,
+        UserStatus status,
+        boolean activated
+) {
 }

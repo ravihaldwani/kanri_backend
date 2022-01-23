@@ -61,9 +61,9 @@ class UserServiceImpl implements UserService {
     public User updateUser(UserDto request) {
         var userId = getCurrentUser().get().getId();
         var userEntity = repository.findById(userId).get();
-        userEntity.setFirstName(request.getFirstName());
-        userEntity.setLastName(request.getLastName());
-        userEntity.setPhone(PhoneNumber.of(request.getPhone()));
+        userEntity.setFirstName(request.firstName());
+        userEntity.setLastName(request.lastName());
+        userEntity.setPhone(PhoneNumber.of(request.phone()));
         return repository.save(userEntity);
     }
 

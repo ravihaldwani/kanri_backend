@@ -1,6 +1,7 @@
 package com.kanrisoft.kanri.user.util;
 
 import com.google.common.hash.Hashing;
+import com.kanrisoft.kanri.user.domain.PhoneNumber;
 import com.kanrisoft.kanri.user.domain.Role;
 import com.kanrisoft.kanri.user.domain.User;
 import com.kanrisoft.kanri.user.model.UserDto;
@@ -11,15 +12,15 @@ import java.util.stream.Collectors;
 
 public class UserUtils {
     public static UserDto mapUserToDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setEmail(user.getEmail().getValue());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        user.getPhone().ifPresent(phone -> userDto.setPhone(phone.getValue()));
-        userDto.setStatus(user.getStatus());
-        userDto.setCreatedDate(user.getCreatedDate());
-        userDto.setActivated(user.isActivated());
-        return userDto;
+        return new UserDto(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPhone().map(PhoneNumber::getValue).orElse(null),
+                user.getEmail().getValue(),
+                user.getCreatedDate(),
+                user.getStatus(),
+                user.isActivated()
+        );
     }
 
     public static String generateActivationKey(String base) {
@@ -28,8 +29,8 @@ public class UserUtils {
 
     public static Set<Role> mapToRoleSet(Set<Object> roles) {
         return roles.stream().map(role -> {
-            if (role instanceof Role) return (Role) role;
-            else if (role instanceof String) return Role.valueOf((String) role);
+            if (role instanceof Role r) return r;
+            else if (role instanceof String r) return Role.valueOf(r);
             throw new IllegalStateException("");
         }).collect(Collectors.toSet());
     }
