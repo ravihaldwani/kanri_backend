@@ -25,8 +25,8 @@ class AuditorConfig implements AuditorAware<UserId> {
 
         var principal = authentication.getPrincipal();
 
-        if (principal instanceof User) {
-            return Optional.of(UserId.of(((User) principal).getId()));
+        if (principal instanceof User p) {
+            return Optional.of(UserId.of(p.getId()));
         }
         return Optional.empty();
     }
