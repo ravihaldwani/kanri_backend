@@ -1,8 +1,7 @@
 package com.kanrisoft.kanri.user.domain;
 
-import lombok.Data;
-
-@Data(staticConstructor = "of")
-public class UserId {
-    final Long id;
+public record UserId(Long id) {
+    public static UserId of(Long id) {
+        return new UserId(id);
+    }
 }
