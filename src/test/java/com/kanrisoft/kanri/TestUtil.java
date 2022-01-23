@@ -22,4 +22,8 @@ public class TestUtil {
     public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
         return mapper.writeValueAsBytes(object);
     }
+
+    public static <T> T convertJsonToType(String json, Class<T> clazz) throws IOException {
+        return mapper.readValue(json, clazz);
+    }
 }
