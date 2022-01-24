@@ -5,6 +5,6 @@ import com.kanrisoft.kanri.space.model.SpaceDto;
 
 public class SpaceUtils {
     public static SpaceDto mapToDto(Space space) {
-        return new SpaceDto();
+        return new SpaceDto(space.getId());
     }
 }

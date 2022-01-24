@@ -1,4 +1,4 @@
 package com.kanrisoft.kanri.space.model;
 
-public record SpaceDto() {
+public record SpaceDto(Long id) {
 }

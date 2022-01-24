@@ -3,12 +3,13 @@ package com.kanrisoft.kanri.space.domain;
 import com.kanrisoft.kanri.space.model.SpaceRequest;
 import com.kanrisoft.kanri.user.UserModule;
 import com.kanrisoft.kanri.user.domain.UserId;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -19,18 +20,14 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SpaceServiceImplTest {
-    SpaceService underTest;
+    @InjectMocks
+    SpaceServiceImpl underTest;
 
     @Mock
     SpaceRepository repository;
 
     @Mock
     UserModule userModule;
-
-    @BeforeEach
-    void setUp() {
-        underTest = new SpaceServiceImpl(repository, userModule);
-    }
 
     @Nested
     class CreateSpace {

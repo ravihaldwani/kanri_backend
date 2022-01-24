@@ -33,7 +33,6 @@ class UserServiceImplTest {
     @Mock
     private UserRepository repository;
 
-    @Autowired
     @InjectMocks
     private UserServiceImpl underTest;
 
