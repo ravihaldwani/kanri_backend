@@ -1,5 +1,6 @@
 package com.kanrisoft.kanri.space;
 
+import com.kanrisoft.kanri.space.model.SpaceDto;
 import com.kanrisoft.kanri.space.model.SpaceRequest;
 import com.kanrisoft.kanri.space.domain.SpaceService;
 import com.kanrisoft.kanri.space.util.SpaceUtils;
@@ -21,7 +22,7 @@ public class SpaceController {
     }
 
     @PostMapping
-    ResponseEntity<Object> createSpace(@RequestBody SpaceRequest request) {
+    ResponseEntity<SpaceDto> createSpace(@RequestBody SpaceRequest request) {
         var space = service.createSpace(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(SpaceUtils.mapToDto(space));
     }
