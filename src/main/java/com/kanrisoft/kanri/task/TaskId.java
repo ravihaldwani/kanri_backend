@@ -1,8 +1,7 @@
 package com.kanrisoft.kanri.task;
 
-import lombok.Value;
-
-@Value(staticConstructor = "of")
-public class TaskId {
-    Long id;
+public record TaskId(Long id) {
+    public static TaskId of(Long id) {
+        return new TaskId(id);
+    }
 }

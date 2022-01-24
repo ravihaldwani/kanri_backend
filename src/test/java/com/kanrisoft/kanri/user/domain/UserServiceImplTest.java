@@ -138,8 +138,8 @@ class UserServiceImplTest {
             assertAll(
                     () -> assertEquals(request.getFirstName(), user.getFirstName()),
                     () -> assertEquals(request.getLastName(), user.getLastName()),
-                    () -> assertEquals(request.getEmail(), user.getEmail().getValue()),
-                    () -> assertEquals(request.getPhone(), user.getPhone().get().getValue())
+                    () -> assertEquals(request.getEmail(), user.getEmail().email()),
+                    () -> assertEquals(request.getPhone(), user.getPhone().get().value())
             );
         }
 

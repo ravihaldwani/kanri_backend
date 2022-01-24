@@ -16,37 +16,19 @@ class PhoneNumberValidator implements ValueValidator<String> {
     }
 }
 
-public final class PhoneNumber {
+public record PhoneNumber(String phone) {
     private static final ValueValidator<String> phoneValidator = PhoneNumberValidator.getInstance();
-    private final String phone;
 
-    private PhoneNumber(String phone) {
+    public PhoneNumber {
         if (!phoneValidator.isValid(phone)) throw new IllegalArgumentException("Invalid phone");
-        this.phone = phone;
     }
 
     public static PhoneNumber of(String phone) {
         return new PhoneNumber(phone);
     }
 
-    public String getValue() {
+    public String value() {
         return this.phone;
     }
 
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof PhoneNumber)) return false;
-        final PhoneNumber other = (PhoneNumber) o;
-        return Objects.equals(this.getValue(), other.getValue());
-    }
-
-    public int hashCode() {
-        final int PRIME = 59;
-        final Object $phone = getValue();
-        return PRIME + ($phone == null ? 43 : $phone.hashCode());
-    }
-
-    public String toString() {
-        return "PhoneNumber(phone=" + getValue() + ")";
-    }
 }

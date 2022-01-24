@@ -15,8 +15,8 @@ public class UserUtils {
         return new UserDto(
                 user.getFirstName(),
                 user.getLastName(),
-                user.getPhone().map(PhoneNumber::getValue).orElse(null),
-                user.getEmail().getValue(),
+                user.getPhone().map(PhoneNumber::value).orElse(null),
+                user.getEmail().value(),
                 user.getCreatedDate(),
                 user.getStatus(),
                 user.isActivated()

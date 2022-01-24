@@ -4,8 +4,6 @@ import com.kanrisoft.kanri.shared.Constants;
 import com.kanrisoft.kanri.shared.ValueValidator;
 import com.kanrisoft.kanri.user.exception.InvalidEmailException;
 
-import java.util.Objects;
-
 class EmailValidator implements ValueValidator<String> {
 
     public static EmailValidator getInstance() {
@@ -18,37 +16,18 @@ class EmailValidator implements ValueValidator<String> {
     }
 }
 
-public final class Email {
+public record Email(String email) {
     private static final ValueValidator<String> validator = EmailValidator.getInstance();
-    private final String email;
 
-    private Email(String email) {
+    public Email {
         if (!validator.isValid(email)) throw new InvalidEmailException(email);
-        this.email = email;
     }
 
     public static Email of(String email) {
         return new Email(email);
     }
 
-    public String getValue() {
-        return this.email;
-    }
-
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof Email)) return false;
-        final Email other = (Email) o;
-        return Objects.equals(this.email, other.email);
-    }
-
-    public int hashCode() {
-        final int PRIME = 59;
-        final String $email = getValue();
-        return PRIME + $email.hashCode();
-    }
-
-    public String toString() {
-        return "Email(email=" + getValue() + ")";
+    public String value() {
+        return email;
     }
 }

@@ -91,7 +91,7 @@ class UserEntity implements User {
     }
 
     public static UserEntity of(String firstName, String lastName, Email email, String password, PhoneNumber phone) {
-        var activationKey = UserUtils.generateActivationKey(email.getValue());
+        var activationKey = UserUtils.generateActivationKey(email.value());
         return new UserEntity(
                 null,
                 firstName,
@@ -149,7 +149,7 @@ class UserEntity implements User {
 
     @Override
     public String getUsername() {
-        return this.email.getValue();
+        return this.email.value();
     }
 
     @Override
