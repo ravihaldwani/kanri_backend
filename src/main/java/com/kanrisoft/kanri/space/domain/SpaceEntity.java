@@ -1,6 +1,6 @@
 package com.kanrisoft.kanri.space.domain;
 
-import com.kanrisoft.kanri.board.domian.BoardId;
+import com.kanrisoft.kanri.board.domain.BoardId;
 import com.kanrisoft.kanri.user.domain.UserId;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

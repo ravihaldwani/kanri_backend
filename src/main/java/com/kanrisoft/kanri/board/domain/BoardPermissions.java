@@ -1,11 +1,11 @@
-package com.kanrisoft.kanri.board.domian;
+package com.kanrisoft.kanri.board.domain;
 
 import java.util.Set;
 
 public class BoardPermissions {
     private final Set<Permission> permissions;
 
-    public BoardPermissions(Set<Permission> permissions) {
+    BoardPermissions(Set<Permission> permissions) {
         this.permissions = permissions;
     }
 

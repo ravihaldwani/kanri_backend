@@ -100,19 +100,19 @@ class SpaceControllerTest {
         ).andExpect(status().isUnauthorized());
     }
 
-//    @Test
-//    void shouldAddUserToTheSpace() throws Exception {
-//        var request = new SpaceRequest("Test");
-//        var body = TestUtil.convertObjectToJsonBytes(request);
-//        var captor = ArgumentCaptor.forClass(SpaceRequest.class);
-//        when(spaceService.createSpace(any(SpaceRequest.class))).thenReturn(mock(Space.class));
-//
-//        mvc.perform(
-//                post(baseUrl).contentType(MediaType.APPLICATION_JSON)
-//                        .content(body)
-//        );
-//
-//        verify(spaceService).createSpace(captor.capture());
-//        assertEquals(captor.getValue(), request);
-//    }
+    @Test
+    void shouldAddUserToTheSpace() throws Exception {
+        var request = new SpaceRequest("Test");
+        var body = TestUtil.convertObjectToJsonBytes(request);
+        var captor = ArgumentCaptor.forClass(SpaceRequest.class);
+        when(spaceService.addUserToSpace(any(), any()));
+
+        mvc.perform(
+                post(baseUrl).contentType(MediaType.APPLICATION_JSON)
+                        .content(body)
+        );
+
+        verify(spaceService).createSpace(captor.capture());
+        assertEquals(captor.getValue(), request);
+    }
 }
