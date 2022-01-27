@@ -23,4 +23,10 @@ public interface Space {
     boolean removeBoard(BoardId board);
 
     boolean containsBoard(BoardId board);
+
+    boolean addUser(UserId userId);
+
+    boolean removeUser(UserId userId);
+
+    boolean containsUser(UserId userId);
 }

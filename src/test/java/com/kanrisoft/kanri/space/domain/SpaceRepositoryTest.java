@@ -38,4 +38,18 @@ class SpaceRepositoryTest extends DatabaseIntegration {
         assertTrue(retrieved.isPresent());
         assertTrue(retrieved.get().containsBoard(boardId));
     }
+
+    @Test
+    void shouldAddUser() {
+        var userId = UserId.of(1212L);
+        var space = SpaceEntity.of("testspace", userId);
+        var boardId = BoardId.of(1L);
+        var saved = repository.save(space);
+
+        var retrieved = repository.findById(saved.getId());
+        assertTrue(retrieved.isPresent());
+
+        retrieved.get().addUser(userId);
+        assertTrue(retrieved.get().containsBoard(boardId));
+    }
 }

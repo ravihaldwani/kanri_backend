@@ -1,9 +1,12 @@
 package com.kanrisoft.kanri.space;
 
 import com.kanrisoft.kanri.TestUtil;
+import com.kanrisoft.kanri.board.domain.Permission;
 import com.kanrisoft.kanri.config.MyControllerTest;
 import com.kanrisoft.kanri.space.domain.Space;
+import com.kanrisoft.kanri.space.domain.SpaceId;
 import com.kanrisoft.kanri.space.domain.SpaceService;
+import com.kanrisoft.kanri.space.model.AddUserToSpaceRequest;
 import com.kanrisoft.kanri.space.model.SpaceDto;
 import com.kanrisoft.kanri.space.model.SpaceRequest;
 import org.junit.jupiter.api.Test;
@@ -16,7 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.IOException;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -81,7 +84,7 @@ class SpaceControllerTest {
         var result = mvc.perform(
                 post(baseUrl).contentType(MediaType.APPLICATION_JSON)
                         .content(body)
-        ) .andReturn();
+        ).andReturn();
         var responseJson = result.getResponse().getContentAsString();
         var respDto = TestUtil.convertJsonToType(responseJson, SpaceDto.class);
 
@@ -101,18 +104,37 @@ class SpaceControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldAddUserToTheSpace() throws Exception {
-        var request = new SpaceRequest("Test");
+        var request = new AddUserToSpaceRequest(1L);
         var body = TestUtil.convertObjectToJsonBytes(request);
-        var captor = ArgumentCaptor.forClass(SpaceRequest.class);
-        when(spaceService.addUserToSpace(any(), any()));
+        var spaceId = 1L;
 
         mvc.perform(
-                post(baseUrl).contentType(MediaType.APPLICATION_JSON)
+                post(baseUrl + '/' + spaceId + "/add_user")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(body)
-        );
+        ).andExpect(status().isOk());
+    }
 
-        verify(spaceService).createSpace(captor.capture());
-        assertEquals(captor.getValue(), request);
+    @Test
+    @WithMockUser
+    void shouldCallAddUser() throws Exception {
+        var userId = 2L;
+        var request = new AddUserToSpaceRequest(userId);
+        var body = TestUtil.convertObjectToJsonBytes(request);
+        var reqArgCaptor = ArgumentCaptor.forClass(AddUserToSpaceRequest.class);
+        var spaceArgCaptor = ArgumentCaptor.forClass(SpaceId.class);
+        var spaceId = 1L;
+
+        mvc.perform(
+                post(baseUrl + '/' + spaceId + "/add_user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body)
+        ).andExpect(status().isOk());
+
+        verify(spaceService).addUserToSpace(spaceArgCaptor.capture(), reqArgCaptor.capture());
+        assertEquals(spaceId, spaceArgCaptor.getValue().id());
+        assertEquals(userId, reqArgCaptor.getValue().userId());
     }
 }

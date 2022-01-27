@@ -22,15 +22,21 @@ import java.util.Set;
 class BoardEntity implements Board {
     @Id
     private final Long id;
+
     @MappedCollection(keyColumn = "user_id")
     private final Map<UserId, BoardPermissions> members = new HashMap<>();
+
     private String name;
+
     @CreatedBy
     private UserId createdBy;
+
     @CreatedDate
     private Instant createdDate;
+
     @LastModifiedBy
     private UserId lastModifiedBy;
+
     private Map<TaskId, Task> tasks;
 
     private BoardEntity(Long id) {
