@@ -55,6 +55,8 @@ class SpaceServiceImplTest {
 
             verify(repository).findById(spaceId.id());
             verify(space).addUser(UserId.of(2L));
+
+            verify(repository).save(space);
         }
     }
 }

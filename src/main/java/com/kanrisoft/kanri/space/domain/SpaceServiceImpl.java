@@ -30,5 +30,7 @@ class SpaceServiceImpl implements SpaceService {
         var spaceEntity = space.orElseThrow();
 
         spaceEntity.addUser(UserId.of(request.userId()));
+
+        repository.save(spaceEntity);
     }
 }
